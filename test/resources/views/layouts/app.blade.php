@@ -26,16 +26,17 @@
 @section('header')
     <header class="w-2/3 mx-auto mt-16 text-right">
         @guest()
-            <a href="{{route('boards.index')}}" class="text-xl">게시판</a>
-            <a href="{{route('auth.register.index')}}" class="text-xl">&nbsp관리자 등록&nbsp</a>
-            <a href="{{route('login')}}" class="text-xl">로그인</a>
+            <a href="{{route('boards.index')}}" class="text-xl"><b>게시판</b></a>
+            <a href="{{route('auth.register.index')}}" class="text-xl"><b>&nbsp관리자 등록&nbsp</b></a>
+            <a href="{{route('login')}}" class="text-xl"><b>로그인</b></a>
         @endguest
 
         @auth()
             <span class="text-xl text-blue-500">{{auth()->user()->name}}님 환영합니다 </span>
+            <a href="{{route('boards.index')}}" class="text-xl"><b>&nbsp게시판</b></a>
             <form action="/auth/logout" method="post" class="inline-block">
                 @csrf
-                <a href="{{route('auth.logout')}}"><button class="text-xl">로그아웃</button></a>
+                <a href="{{route('auth.logout')}}"><button class="text-xl"><b>로그아웃</b></button></a>
             </form>
         @endauth
     </header>

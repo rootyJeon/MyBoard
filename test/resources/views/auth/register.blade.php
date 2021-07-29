@@ -64,7 +64,6 @@
                     success: function (data) { 
                         var email = $('#email').val();
                         //console.log(data);
-                        
                         if(data['success'] == -1){
                             $("#mailcheck").text("올바른 이메일 형식이 아닙니다");
                             $("#mailcheck").css("color", "red");

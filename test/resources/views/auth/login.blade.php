@@ -14,12 +14,12 @@
                 <label for="password" class="inline-block w-1/4 text-right mr-4" id="password">비밀번호</label>
                 <input type="password" id="password" name="password" class="outline-none border border-blue-400 rounded-lg pl-1 w-1/3" id="password"/>
             </p></br>
-            <input type="checkbox" name="remember" id="remember">
+                <input type="checkbox" name="remember" id="remember">
                 <label for="remember" class="pr-2">이메일 기억하기</label>
                 <a href="{{route('auth.register.index')}}" class="pr-2"><u>관리자 등록하기</u></a>
             </br>
             <p class="mt-8">
-                <input type="button" value="로그인" id="btnsubmit"
+                <input type="button" value="로그인" id="loginsubmit"
                         class="bg-blue-500 hover:bg-blue-700 px-10 py-1 ml-4 text-lg text-white rounded-lg outline-none">
                 <input type="button" class="bg-red-500 hover:bg-red-700 px-4 py-1 ml-4 text-lg text-white rounded-lg outline-none"
                         value="취소" onclick="window.location.href='{{route('home')}}'">
@@ -38,7 +38,7 @@
             $("#remember").attr("checked", true);
         }
 
-        $("#btnsubmit").click(function(){
+        $("#loginsubmit").click(function(){
             var form = $("#frm")[0];            // id="frm" 안에 있는 모든 내용을 가져온다.
             var formData = new FormData(form);  // 파일을 비동기 방식으로 전송하기 위해서 formData 사용
             // form으로 안하니까 통신이 안되네?!

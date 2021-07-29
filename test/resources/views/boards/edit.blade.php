@@ -126,7 +126,16 @@
                 var form = $("#frm")[0];
                 var formData = new FormData(form);
 
-                var op = confirm("{{$board->name}}에서 " + $("#name").val() + "(으)로 수정하시겠습니까?");
+                var usable = "미사용";
+                if($("#use").is(":checked")){
+                    usable = "사용";
+                }
+                var o_usable = "미사용";
+                if("{{$board->usable}}"){
+                    o_usable = "사용";
+                }
+
+                var op = confirm("{{$board->name}} " + o_usable + "에서 " + $("#name").val() + " " + usable + "(으)로 수정하시겠습니까?");
                 if(op){
                     $.ajax({
                     headers: {'X-CSRF_TOKEN':$('meta[name="csrf-token"]').attr('content')},
@@ -143,7 +152,7 @@
                         if(data['success']){
                             window.location.href="{{route('boards.index')}}";
                         }else{
-                            alert("이미 동일한 카테고리가 존재합니다");
+                            alert("이미 존재하는 카테고리입니다");
                         }
                     },
                     error:function(data){

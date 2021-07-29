@@ -7,13 +7,14 @@
             <div class="flex-initial text-2xl text-yellow-500">메뉴2</div>
             <div class="flex-initial text-2xl text-yellow-500">메뉴3</div>
             <div class="flex-initial text-2xl text-yellow-500">메뉴4</div>
+        </div><br>
+        <div>
+            <a href="{{route('boards.create')}}">
+                <button class="px-4 py-2 text-white bg-green-500 hover:bg-green-700">카테고리 등록</button>
+            </a>
         </div>
-        <br><div>
-                <a href="{{route('boards.create')}}">
-                    <button class="px-4 py-2 text-white bg-green-500 hover:bg-green-700">카테고리 등록</button>
-                </a>
-            </div>
-        <br><div class = "container">
+        <div class="text-right" name="total_cat"><font size=4>총 카테고리 <b>{{$boards->total()}}</b>개</font></div>
+        <div class = "container">
             <table class="table">
 
                 <thead>
@@ -21,7 +22,7 @@
                         <th><center>카테고리 번호</th>
                         <th><center>카테고리명</th>
                         <th><center>사용여부</th>
-                        <th><center>등록일</th>
+                        <th><center>수정일</th>
                         <th><center>관리</th>
                     </tr>
                 </thead>
@@ -35,7 +36,7 @@
                         @else
                             <td><center>미사용</td>
                         @endif
-                        <td><center>{{$cat -> created_at -> format('Y-m-d h:m:s')}}</td>
+                        <td><center>{{$cat -> updated_at -> format('Y-m-d h:m:s')}}</td>
                         <td><center><a href="{{route('boards.edit', $cat->id)}}"><button class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-700">수정</button></a>
                         <form action="/boards/{{$cat->id}}/delete" method="post" class="inline-block">
                             @csrf
