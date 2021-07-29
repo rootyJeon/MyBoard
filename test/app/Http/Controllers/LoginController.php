@@ -15,38 +15,33 @@ class LoginController extends Controller
 
     public function login(Request $request){
         
-        /*
+        
         $auth = false;
         $credentials = $request->only('email', 'password');
-        dd($credentials);
 
         if(Auth::attempt($credentials, $request->has('remember'))){
             $auth = true;
         }
 
-        if($request -> ajax()){
-            return response()->json([
-                'auth'=> $auth,
-                'intended' => URL::previous()
-            ]);
+        if($auth == true){
+            return response()->json(['success' => true]);
         }else{
-            return redirect() -> intended(URL::route('boards.index'));
+            return response()->json(['success' => false]);
         }
-        return redirect(URL::route('login'));
-        */
 
-        $loginInfo=$request->only(["email", "password"]);
         
-        if(auth()->attempt($loginInfo)){
-            /*
-            response()->json([
-                'success' => 'get your data'
-            ]);
-            */
-            return 1; // 성공하면 메인화면
-        }else{
-            return 0; // 실패하면 로그인화면
-        }
+        // $loginInfo=$request->only(["email", "password"]);
+        // $remember = true;
+        // if(auth()->attempt($loginInfo)){
+        //     /*
+        //     response()->json([
+        //         'success' => 'get your data'
+        //     ]);
+        //     */
+        //     return 1; // 성공하면 메인화면
+        // }else{
+        //     return 0; // 실패하면 로그인화면
+        // }
         
     }
     
@@ -66,5 +61,23 @@ class LoginController extends Controller
         }else{
             return redirect() -> route('login'); // 실패하면 로그인화면
         }
+
+        $auth = false;
+        $credentials = $request->only('email', 'password');
+        dd($credentials);
+
+        if(Auth::attempt($credentials, $request->has('remember'))){
+            $auth = true;
+        }
+
+        if($request -> ajax()){
+            return response()->json([
+                'auth'=> $auth,
+                'intended' => URL::previous()
+            ]);
+        }else{
+            return redirect() -> intended(URL::route('boards.index'));
+        }
+        return redirect(URL::route('login'));
 
 */

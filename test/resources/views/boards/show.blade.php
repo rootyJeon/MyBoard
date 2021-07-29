@@ -3,10 +3,10 @@
 @section('section')
     <section class="w-2/3 mx-auto mt-16">
         <div class="border-b border-gray-300 mb-8 pl-1 pb-2 text-xl font-bold">
-                {{$board -> title}}
+                {{$board -> name}}
         </div>
         <div class="text-lg">
-            {{$board -> story}}
+            {{$board -> usable}}
         </div>
         <div class="mt-8">
             <a href="{{route('boards.edit', $board->id)}}">

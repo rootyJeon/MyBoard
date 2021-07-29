@@ -14,7 +14,7 @@
                 <label for="password" class="inline-block w-1/4 text-right mr-4" id="password">비밀번호</label>
                 <input type="password" id="password" name="password" class="outline-none border border-blue-400 rounded-lg pl-1 w-1/3" id="password"/>
             </p></br>
-            <input type="checkbox" name="remember">
+            <input type="checkbox" name="remember" id="remember">
                 <label for="remember" class="pr-2">이메일 기억하기</label>
                 <a href="{{route('auth.register.index')}}" class="pr-2"><u>관리자 등록하기</u></a>
             </br>
@@ -31,15 +31,29 @@
     <script>
     $(function(){
 
+        var userId = getCookie("cookieUserId");
+        $("#email").val(userId);
+
+        if($("#email").val() != ""){ // 쿠키에 만료되지 않은 아이디가 있어 입력됐다면 체크박스가 체크되도록 표시
+            $("#remember").attr("checked", true);
+        }
+
         $("#btnsubmit").click(function(){
             var form = $("#frm")[0];            // id="frm" 안에 있는 모든 내용을 가져온다.
             var formData = new FormData(form);  // 파일을 비동기 방식으로 전송하기 위해서 formData 사용
-            // form으로 안하니까 통신이 안되네?! 
+            // form으로 안하니까 통신이 안되네?!
+
+            if($("#remember").is(":checked")){ // ID 기억하기 체크시 쿠키에 저장
+                var userId = $("#email").val();
+                setCookie("cookieUserId", userId, 7);
+            }else{
+                deleteCookie("cookieUserId");
+            }
 
             var password=$("#password").val();
             var email=$("#email").val();
 
-            $.ajax({
+            $.ajax({ // 계속 ajax에서 안되네
                 headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
                 url: "/login_attempt",
                 type: "post",
@@ -51,9 +65,10 @@
                 contentType: false,
                 success:function(data){
                     //console.log(data);
-                    if(data==1){
+                    if(data['success']==1){
                         window.location.href="{{route('boards.index')}}";
                     }else{
+                        alert("아이디 또는 비밀번호가 틀렸습니다");
                         window.location.href="{{route('login')}}";
                     }
                 },
@@ -62,6 +77,36 @@
                 }
             });
         })
+
+        function setCookie(cookieName, value, exdays){ // Function for Setting the Cookie
+            var exdate = new Date();
+            exdate.setDate(exdate.getDate() + exdays);
+            var cookieValue = escape(value)+((exdays==null)? "" : "; expires="+exdate.toGMTString());
+            document.cookie = cookieName+"="+cookieValue;
+        }
+
+        function deleteCookie(cookieName){ // Cookie Delete Function
+            var expireDate = new Date();
+            expireDate.setDate(expireDate.getDate()-1);
+            document.cookie = cookieName+"= "+"; expires="+expireDate.toGMTString();
+        }
+
+        function getCookie(cookieName){ // Function to get a Cookie
+            cookieName = cookieName + '=';
+            var cookieData = document.cookie;
+            var start = cookieData.indexOf(cookieName);
+            var cookieValue='';
+            if(start != -1){
+                start += cookieName.length;
+                var end = cookieData.indexOf(';', start);
+                if(end == -1){
+                    end = cookieData.length;
+                }
+                cookieValue = cookieData.substring(start, end);
+            }
+            return unescape(cookieValue);
+        }
+
     });
     </script>
 @stop

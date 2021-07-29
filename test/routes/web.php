@@ -43,14 +43,19 @@ Route::get('auth/login', [LoginController::class, 'index']) -> name('login');
 Route::post('/login_attempt', [LoginController::class, 'login']) -> name('auth.login.attempt');
 Route::post('auth/logout', [LoginController::class, 'logout']) -> name('auth.logout');
 
-Route::middleware('auth') -> prefix('boards') -> group(function(){
-    Route::get('/', [BoardController::class, 'index']) -> name('boards.index');
-    Route::get('create', [BoardController::class, 'create']) -> name('boards.create');
-    Route::post('/', [BoardController::class, 'store']) -> name('boards.store');
-    Route::get('{board}', [BoardController::class, 'show']) -> name('boards.show');
-    Route::get('{board}/edit', [BoardController::class, 'edit']) -> name('boards.edit');
-    Route::put('{board}', [BoardController::class, 'update']) -> name('boards.update');
-    Route::delete('{board}', [BoardController::class, 'destroy']) -> name('boards.delete');
+Route::middleware('auth') -> prefix('boards') -> group(function(){ // Prefix 쓴 것 기억할 것!
+Route::get('/', [BoardController::class, 'index']) -> name('boards.index');
+Route::get('create', [BoardController::class, 'create']) -> name('boards.create');
+// Route::post('/', [BoardController::class, 'store']) -> name('boards.store');
+Route::get('{board}', [BoardController::class, 'show']) -> name('boards.show');
+Route::get('{board}/edit', [BoardController::class, 'edit']) -> name('boards.edit');
+Route::post('{board}/update', [BoardController::class, 'update']) -> name('boards.update');
+Route::delete('{board}/delete', [BoardController::class, 'destroy']) -> name('boards.delete');
+Route::get('/{board}/usable_status', [BoardController::class, 'usable_status']) -> name('boards.usable_status');
+
+Route::post('/store', [BoardController::class, 'store']) -> name('boards.store');
+Route::post('/not_usable', [BoardController::class, 'not_usable']) -> name('boards.not_usalbe');
+Route::post('/is_usable', [BoardController::class, 'is_usable']) -> name('boards.is_usalbe');
 });
 
 /*

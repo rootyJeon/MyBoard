@@ -16,25 +16,35 @@ class RegisterController extends Controller
 
     public function auth_store(Request $request)
     {
-        /*
-        $validator = Validator::make($request->all(), [
-            'password' => 'required|confirmed',
-            'email' => 'required|email|min:8',
-            'name' => 'required',
+        $validator = Validator::make($request->only('password'), [
+            'password' => 'required|min:8'
         ]);
-        */
+        if(!$validator->passes()){
+            return response()->json(['success' => -2]);
+        }
 
-        // Store Data in DATABASE from HERE
+        $validator = Validator::make($request->only('password'), [
+            'password' => 'regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/'
+        ]);
+        if(!$validator->passes()){
+            return response()->json(['success' => -1]);
+        }
+
+        $validator = Validator::make($request->only('password', 'password_confirmation'), [ // password_confirmation도 불러줘야한다..
+            'password' => 'confirmed'
+        ]);
+        if(!$validator->passes()){
+            return response()->json(['success' => 0]);
+        }
+
         User::create([
            'email' => $request->input('email'),
            'password' => Hash::make($request->input('password')),               
            'name' => $request->input('name')
         ]);
 
-        return 1;
-        //return response()->json(['success'=>'Added new records.']);
+        return response()->json(['success'=>1]);
         // return response()->json(['error'=>$validator->errors()]);
-        //return 0;
     }
 
     public function email_check(Request $request)
@@ -44,7 +54,7 @@ class RegisterController extends Controller
         ]);
 
         if(!$validator -> passes()){
-            return -1;
+            return response()->json(['success' => -1]);
         }
 
         $validator = Validator::make($request->only('email'), [
@@ -52,10 +62,10 @@ class RegisterController extends Controller
         ]);
 
         if(!$validator ->passes()){
-            return 0;
+            return response()->json(['success' => 0]);
         }
 
-        return 1;
+        return response()->json(['success' => 1]);
     }
     /*
     public function password_check(Request $request){

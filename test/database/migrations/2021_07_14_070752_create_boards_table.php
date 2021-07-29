@@ -15,9 +15,10 @@ class CreateBoardsTable extends Migration
     {
         Schema::create('boards', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->longText('story');
+            $table->string('name');
+            $table->boolean('usable');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -29,5 +30,8 @@ class CreateBoardsTable extends Migration
     public function down()
     {
         Schema::dropIfExists('boards');
+        // Schema::table('boards', function (Blueprint $table) {
+        //     $table->dropSoftDeletes();
+        // });
     }
 }
