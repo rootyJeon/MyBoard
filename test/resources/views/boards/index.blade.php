@@ -4,10 +4,10 @@
     <section class="w-2/3 mx-auto mt-8">
         <div class="flex w-full justify-between">
             <div class="flex-initial text-2xl text-yellow-500"><a href="{{route('boards.index')}}">카테고리 메뉴</a></div>
-            <div class="flex-initial text-2xl text-yellow-500">메뉴2</div>
-            <div class="flex-initial text-2xl text-yellow-500">메뉴3</div>
+            <div class="flex-initial text-2xl text-yellow-500"><a href="{{route('brands.index')}}">브랜드 메뉴</a></div>
+            <div class="flex-initial text-2xl text-yellow-500"><a href="{{route('products.index')}}">상품관리 메뉴</a></div>
             <div class="flex-initial text-2xl text-yellow-500">메뉴4</div>
-        </div><br>
+        </div><br><br>
         <div>
             <a href="{{route('boards.create')}}">
                 <button class="px-4 py-2 text-white bg-green-500 hover:bg-green-700">카테고리 등록</button>
@@ -52,7 +52,7 @@
         </div>
         
         <div class = "container">
-              <center>{!! $boards->links('vendor.pagination.custom') !!}
+              <center>{!! $boards->links('vendor.pagination.custom') !!} <!--Custom Pagination-->
         </div>
 
         <!-- <div class="w-full mt-8">

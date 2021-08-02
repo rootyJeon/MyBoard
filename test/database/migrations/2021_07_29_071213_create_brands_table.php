@@ -16,10 +16,11 @@ class CreateBrandsTable extends Migration
         Schema::create('brands', function (Blueprint $table) {
             $table->id();
             $table->string('kor_name');
-            $table->strinrg('eng_name');
+            $table->string('eng_name');
             $table->integer('cnt');
             $table->longText('introduction');
             $table->timestamps();
+            $table->SoftDeletes();
         });
     }
 

@@ -30,6 +30,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BoardController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\BrandsController;
+use App\Http\Controllers\ProductsController;
 
 Route::get('/', function () {
     return view('home');
@@ -54,8 +56,22 @@ Route::delete('{board}/delete', [BoardController::class, 'destroy']) -> name('bo
 Route::get('/{board}/usable_status', [BoardController::class, 'usable_status']) -> name('boards.usable_status');
 
 Route::post('/store', [BoardController::class, 'store']) -> name('boards.store');
-Route::post('/not_usable', [BoardController::class, 'not_usable']) -> name('boards.not_usalbe');
-Route::post('/is_usable', [BoardController::class, 'is_usable']) -> name('boards.is_usalbe');
+Route::post('/not_usable', [BoardController::class, 'not_usable']) -> name('boards.not_usable');
+Route::post('/is_usable', [BoardController::class, 'is_usable']) -> name('boards.is_usable');
+});
+
+Route::middleware('auth') -> prefix('brands') -> group(function(){
+Route::get('/', [BrandsController::class, 'index']) -> name('brands.index');
+Route::get('create', [BrandsController::class, 'create']) -> name('brands.create');
+Route::get('{brand}/edit', [BrandsController::class, 'edit']) -> name('brands.edit');
+Route::post('/store', [BrandsController::class, 'store']) -> name('brands.store');
+Route::post('{brand}/update', [BrandsController::class, 'update']) -> name('brands.update');
+Route::delete('{brand}/delete', [BrandsController::class, 'destroy']) -> name('brands.delete');
+});
+
+Route::middleware('auth') -> prefix('products') -> group(function(){
+Route::get('/', [ProductsController::class, 'index']) -> name('products.index');
+Route::get('create', [ProductsController::class, 'create']) -> name('products.create');
 });
 
 /*

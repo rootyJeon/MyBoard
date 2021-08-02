@@ -3,7 +3,7 @@
 @section('section')
     <section class="w-2/3 mx-auto">
         <center>
-        <p class="border-b border-gray-400 text-left mb-8 pb-1 text-2xl">&nbsp 카 테 고 리 &nbsp 수 정</p>
+            <p class="border-b border-gray-400 text-left mb-8 pb-1 text-2xl">&nbsp 카 테 고 리 &nbsp 수 정</p>
         </center>
 
         <form action="/boards/{{$board->id}}" method="post" class="mt-8 w-full" id="frm">
@@ -21,9 +21,9 @@
             <p class="mt-4">
                 <label for="usable" class="inline-block w-2/5 text-right mr-4">사용여부</label>
                 <input type="checkbox" id="use" name="use" 
-                        class="outline-none border border-blue-400 w-1/8 pl-1 py-1 rounded-lg">&nbsp사용&emsp;&emsp;&emsp;&emsp;</input>
+                       class="outline-none border border-blue-400 w-1/8 pl-1 py-1 rounded-lg">&nbsp사용&emsp;&emsp;&emsp;&emsp;</input>
                 <input type="checkbox" id="not_use" name="not_use"
-                        class="outline-none border border-blue-400 w-1/8 pl-1 py-1 rounded-lg">&nbsp미사용</input>
+                       class="outline-none border border-blue-400 w-1/8 pl-1 py-1 rounded-lg">&nbsp미사용</input>
             </p>
 
             <p class="mt-8">
