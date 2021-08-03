@@ -31,7 +31,7 @@
                     @foreach($products as $product)
                         <tr>
                             <td><center>{{$product->id}}</td>
-                            <td><center>브랜드</td>
+                            <td><center>{{$product->brand->kor_name}}</td>
                             <td><center>카테고리</td>
                             <td><center>{{$product->name}}</td>
                             <td><center>{{$product->status}}</td>
@@ -39,7 +39,7 @@
                             <td><center>{{$product->s_price}}</td>
                             <td><center>할인율</td>
                             <td><center><button class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-700">수정</button>
-                                        <button class="px-4 py-2 text-white bg-red-500 hover:bg-red-700">삭제</button>></td>
+                                        <button class="px-4 py-2 text-white bg-red-500 hover:bg-red-700">삭제</button></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -51,4 +51,8 @@
         </div>
 
     </section>
+
+    <script>
+
+    </script>
 @stop

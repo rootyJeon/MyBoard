@@ -10,9 +10,9 @@ class Board extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['name', 'usable'];
+    protected $fillable = ['name', 'usable', 'product_id'];
 
     public function product(){
-        return $this->hasMany('App\Models\Product');
+        return $this->belongsTo('App\Models\Product');
     }
 }

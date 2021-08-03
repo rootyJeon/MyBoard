@@ -29,7 +29,40 @@ class ProductsController extends Controller
 
     public function cat(Request $request){
         $arr = $request['arr'];
+        // foreach($arr as $key){
+        //     Board::where('id', $key)
+        //             ->update([
+        //                 'product_id' => 1
+        //             ]);
+        // }
         return response()->json([$arr]);
+    }
+
+    public function store(Request $request){
+        $validator = Validator::make($request->only('name'), [
+            'name' => 'required|unique:products,name,NULL,id,deleted_at,NULL'
+        ]);
+        if(!$validator->passes()){
+            return response()->json(['success' => -1]);
+        }
+
+        $validator = Validator::make($request->only('o_price', 's_price'), [
+            'o_price' => 'required|integer',
+            's_price' => 'required|integer'
+        ]);
+        if(!$validator->passes()){
+            return response()->json(['success' => 0]);
+        }
+        dd($request);
+        Product::create([ // 한글명과 영문명 유효성 검사 모두 통과 시 새로운 브랜드로 등록
+            'name' => $request->name,
+            'status' => $request->status,
+            'o_price' => $request->o_price,
+            's_price' => $request->s_price,
+            'image_path' => 1,
+            'brand_id' => $request->brand,
+        ]);
+        return response()->json(['success' => 1]);
     }
 
 }

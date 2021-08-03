@@ -14,10 +14,10 @@
             </p><br>
             <p>
                 <label for="category" class="inline-block w-2/5 text-right mr-4">카테고리</label>
-                <select name="category" class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg" style="width:180px">
+                <select name="category" id="category" class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg" style="width:180px">
                     <option value="">카테고리 선택</option>
                     @foreach ($boards as $board)
-                    <option>{{$board->name}}</option>
+                    <option value="{{$board->id}}">{{$board->name}}</option>
                     @endforeach
                 </select>
                 <input type="button" value="추가" id="add" style="width:50pt"
@@ -30,16 +30,16 @@
                 <select name="brand" class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg" style="width:260px">
                     <option value="">브랜드 선택</option>
                     @foreach ($brands as $brand)
-                    <option>{{$brand->kor_name}}</option>
+                    <option value="{{$brand->id}}">{{$brand->kor_name}}</option>
                     @endforeach
                 </select>
             </p><br>
             <p>
                 <label for="name" class="inline-block w-2/5 text-right mr-4">상태</label>
-                <input type="radio" name="status" value="sell" checked>&nbsp판매중</input>
-                <input type="radio" name="status" value="tmp">&nbsp일시품절</input>
-                <input type="radio" name="status" value="soldout">&nbsp품절</input>
-                <input type="radio" name="status" value="stop">&nbsp판매중지</input>
+                <input type="radio" name="status" value="1" checked>&nbsp판매중</input>
+                <input type="radio" name="status" value="2">&nbsp일시품절</input>
+                <input type="radio" name="status" value="3">&nbsp품절</input>
+                <input type="radio" name="status" value="4">&nbsp판매중지</input>
             </p><br>
             <p>
                 <label for="o_price" class="inline-block w-2/5 text-right mr-4">정가</label>
@@ -93,13 +93,15 @@
                         if(arr.length > 2){
                             alert("카테고리를 3개 이상 고를 수 없습니다");
                         }else{
-                            $("#catcheck").append('* ' + data[0]['category'] + ' ');
-                            $("#catcheck").append('<input type="button" value="&#215;" id="remove" class="outline:none;"/> ');
+                            console.log(data[0]['category']);
+                            $("#catcheck").append("* " + $("#category").find('option:selected').text() +' ');
+                            $("#catcheck").append('<font color="red"><input type="button" value="&#215;" id="remove" class="outline:none;"/></font> ');
                             arr.push(data[0]['category']);
                         }
                     }else{
                         alert("카테고리가 중복되어 추가할 수 없습니다");
                     }
+                    alert(arr);
                 },
                 error: function(data){
                     console.log("오류!");

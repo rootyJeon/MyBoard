@@ -42,7 +42,6 @@ class BrandsController extends Controller
             'eng_name' => $request->eng_name,
             'introduction' => $request->introduction,
             'cnt' => 0, // 추후 하위 상품과의 link를 고려해 미리 만들어둠
-            'board_id' => 10 // 외래키 임시
         ]);
         return response()->json(['success' => 1]);
     }

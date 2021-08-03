@@ -47,6 +47,7 @@ class BoardController extends Controller
         Board::create([ // 저장
             'name' => $request->name,
             'usable' => $usable,
+            'product_id' => 0
         ]);
         return response()->json(['success' => true]);
     }
