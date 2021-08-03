@@ -43,7 +43,7 @@
             var form = $("#frm")[0];
             var formData = new FormData(form);
 
-            $.ajax({
+            $.ajax({ // db에 저장된 값이 0인지 1인지에 따라 체크해줄 박스를 결정하는 ajax 
                     headers: {'X-CSRF_TOKEN':$('meta[name="csrf-token"]').attr('content')},
                     url: '/boards/{{$board->id}}/usable_status',
                     type: 'get',
@@ -55,10 +55,10 @@
                     contentType: false,
                     success:function(data){
                         console.log(data);
-                        if(data == 1){
-                            $("#use").prop("checked", true);
-                        }else{
-                            $("#not_use").prop("checked", true);
+                        if(data == 1){ // db에 저장된 값이 1이라면
+                            $("#use").prop("checked", true); // 사용 체크박스에 체크
+                        }else{ // db에 저장된 값이 0이라면
+                            $("#not_use").prop("checked", true); // 미사용 체크박스에 체크
                         }
                     },
                     error:function(data){
@@ -122,11 +122,11 @@
                 });
             })
 
-            $("#update").click(function(){
+            $("#update").click(function(){ // 수정하는 함수
                 var form = $("#frm")[0];
                 var formData = new FormData(form);
 
-                var usable = "미사용";
+                var usable = "미사용"; //129행~ 136행은 138행의 confirm을 하기 위한 코드. ajax 통신 전 상태를 받아오기 위함이다
                 if($("#use").is(":checked")){
                     usable = "사용";
                 }
@@ -136,7 +136,7 @@
                 }
 
                 var op = confirm("{{$board->name}} " + o_usable + "에서 " + $("#name").val() + " " + usable + "(으)로 수정하시겠습니까?");
-                if(op){
+                if(op){ // 수정에 동의하면 수정하는 통신 시작
                     $.ajax({
                     headers: {'X-CSRF_TOKEN':$('meta[name="csrf-token"]').attr('content')},
                     url: '/boards/{{$board->id}}/update',
@@ -149,9 +149,9 @@
                     contentType: false,
                     success:function(data){
                         // console.log(data);
-                        if(data['success']){
-                            window.location.href="{{route('boards.index')}}";
-                        }else{
+                        if(data['success']){ // 카테고리 유효성을 통과하여 정상적으로 저장될 경우
+                            window.location.href="{{route('boards.index')}}"; //카테고리 게시판으로 이동
+                        }else{ // 유효성 검증에서 통과하지 못한 경우 중복 alert
                             alert("이미 존재하는 카테고리입니다");
                         }
                     },

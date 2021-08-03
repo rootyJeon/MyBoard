@@ -18,7 +18,7 @@ class CreateBoardsTable extends Migration
             $table->string('name');
             $table->boolean('usable');
             $table->timestamps();
-            $table->softDeletes();
+            $table->SoftDeletes(); // 소프트 딜리트 처리
         });
     }
 

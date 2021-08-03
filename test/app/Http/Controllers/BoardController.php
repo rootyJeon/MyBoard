@@ -9,32 +9,18 @@ use Illuminate\Support\Facades\Validator;
 class BoardController extends Controller
 {
     public function index(){
-        $boards = Board::orderByDesc('id')->paginate(5);
-        return view('boards.index', compact('boards')); // 내림차순으로 boards에 저장
+        $boards = Board::orderByDesc('id')->paginate(5); // 내림차순하며 5개씩 pagination
+        return view('boards.index', compact('boards')); // 변수를 배열로 만드는 compact
     }
     
     public function create(){
         return view('boards.create');
     }
-
-    // public function store(Request $request){
-    //     $validation = $request -> validate([
-    //         'title' => 'required',
-    //         'story' => 'required'
-    //     ]);
-
-    //     $board = new Board();
-    //     $board -> title = $validation['title'];
-    //     $board -> story = $validation['story'];
-    //     $board -> save();
-
-    //     return redirect() -> route('boards.index');
-    // }
     
-    public function show($id){
-        $board = Board::where('id', $id) -> first(); // 넘겨받은 id 값이 같은 글을 찾아 show.blade.php 파일로 넘겨주기
-        return view('boards.show', compact('board'));
-    }
+    // public function show($id){
+    //     $board = Board::where('id', $id) -> first(); // 넘겨받은 id 값이 같은 글을 찾아 show.blade.php 파일로 넘겨주기
+    //     return view('boards.show', compact('board'));
+    // }
 
     
     public function edit($id){
@@ -44,21 +30,21 @@ class BoardController extends Controller
 
     public function store(Request $request){
 
-        $validator = Validator::make($request->only('name'), [
-            'name' => 'required|unique:boards,name,NULL,id,deleted_at,NULL'
+        $validator = Validator::make($request->only('name'), [ // 이름 유효성 검사
+            'name' => 'required|unique:boards,name,NULL,id,deleted_at,NULL' // 여기서 unique 작성 시 소프트 딜리트 된 데이터에 대해서도 중복을 확인하므로 다음과 같이 작성
         ]);
 
         if(!$validator->passes()){
             return response()->json(['success' => false]);
         }
         
-        $use = $request->use;
+        $use = $request->use; // 41행~45행은 사용인지 미사용인지 확인하는 코드
         $usable = false;
         if($use == true){
             $usable = true;
         }
 
-        Board::create([
+        Board::create([ // 저장
             'name' => $request->name,
             'usable' => $usable,
         ]);
@@ -70,7 +56,7 @@ class BoardController extends Controller
         $use = $request->use;
         $not_use = $request->not_use;
 
-        if($use == true && $not_use == true){
+        if($use == true && $not_use == true){ // 미사용을 클릭해서 (사용, 미사용)이 (T, T) 이므로 사용을 F 해줘야함.(F로 바꿔주는 것은 js에서)
             return response()->json(['success' => true]);
         }
         if($use == false && $not_use == false){
@@ -93,28 +79,28 @@ class BoardController extends Controller
         return -1;
     }
 
-    public function usable_status(Request $request, $id){
+    public function usable_status(Request $request, $id){ // 사용인지 미사용인지 확인하는 함수 db 데이터를 받아 넘겨준다
         $category = Board::where('id', $id) -> first();
         return $category['usable'];
     }
     
-    public function update(Request $request, $id){
+    public function update(Request $request, $id){ // 카테고리를 수정하는 함수
 
         $validator = Validator::make($request->only('name'), [
-            'name' => 'required|unique:boards,name,NULL,id,deleted_at,NULL'
+            'name' => 'required|unique:boards,name,NULL,id,deleted_at,NULL' // 소프트 딜리트를 고려한 유효성 검사
         ]);
         
-        $category = Board::where('id', $id)->first(); // 와이씨 뭐야 first 안해서 안돌아간거야?
+        $category = Board::where('id', $id)->first(); // first를 해야 객체를 가져온다
         $use = $request->use;
         $is_usable = false;
         if($use == true){
             $is_usable = true;
         }
 
-        if(!$validator->passes() && $is_usable == $category['usable']){
+        if(!$validator->passes() && $is_usable == $category['usable']){ // 유효성 검증도 통과하지 못했고 사용 미사용도 동일하다면 수정된 것이 없는 케이스이다
                 return response()->json(['success' => false]);
         }
-        Board::where('id', $id)
+        Board::where('id', $id) // 이상의 문제가 모두 없는 경우 수정 가능한 케이스이므로 update 진행
                ->update([
                     'name' => $request->name,
                     'usable' => $is_usable
@@ -122,11 +108,11 @@ class BoardController extends Controller
 
         // $category->name = $request->name;
         // $category->usable = $is_usable;
-        // $category -> save();
+        // $category -> save(); form 방식
         return response()->json(['success' => true]);
     }
 
-    public function destroy($id){
+    public function destroy($id){ // 삭제하는 함수
         $board = Board::where('id', $id) -> first();
         $board -> delete();
         return redirect()->route('boards.index');

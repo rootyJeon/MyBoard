@@ -51,7 +51,7 @@
                 var formData = new FormData(form);  // 파일을 비동기 방식으로 전송하기 위해서 formData 사용
 
                 // console.log(formData);
-                $.ajax({
+                $.ajax({ // 이메일을 확인하는 ajax 통신
                     headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     url: "/email_check",
                     type: "post",
@@ -64,29 +64,28 @@
                     success: function (data) { 
                         var email = $('#email').val();
                         //console.log(data);
-                        if(data['success'] == -1){
+                        if(data['success'] == -1){ // 이메일 형식이 잘못되었을 경우 div에서 text가 보임
                             $("#mailcheck").text("올바른 이메일 형식이 아닙니다");
                             $("#mailcheck").css("color", "red");
                         }
 
-                        if(data['success'] == 0){
+                        if(data['success'] == 0){ // 이메일 중복 시
                             $("#mailcheck").text("이미 등록된 이메일입니다");
                             $("#mailcheck").css("color", "red");
                         }
 
-                        if(data['success'] == 1){
+                        if(data['success'] == 1){ // 초록색으로 사용가능임을 보여줌
                             $("#mailcheck").text("사용할 수 있는 이메일입니다");
                             $("#mailcheck").css("color", "green");
                             isEmail = 1;
                         }
 
-                        if(email == ""){
+                        if(email == ""){ // 이메일 공란 시
                             $("#mailcheck").text("이메일을 입력하세요");
                             $("#mailcheck").css("color", "red");
                         }
                     },
                     error: function (request, status, error) {
-                        // 통신에 문제가 발생했을 때 함수를 실행
                         console.log('오류 발생!');
                     }
                 });
@@ -102,22 +101,20 @@
                 var name=$('#name').val();
                 
                 // console.log(isEmail);
-                // $('#passwordcheck').text("");
-                // $('#namecheck').text("");
-                if(email==""){
+                if(email==""){ // 이메일 공란 시 저장x
                     $('#mailcheck').text("이메일을 입력하세요");
                     $('#mailcheck').css("color", "red");
                 }
-                if(pwd==""){
+                if(pwd==""){ // 비밀번호 공란 시 저장x
                     $('#passwordcheck').text("비밀번호를 입력하세요");
                     $('#passwordcheck').css("color", "red");
                 }
-                if(name==""){
+                if(name==""){ // 이름 공란 시 저장x
                     $('#namecheck').text("이름을 입력하세요");
                     $('#namecheck').css("color", "red");
-                }else if(isEmail == 1){
-                    console.log(isEmail);
-                    $.ajax({
+                }else if(isEmail == 1){ // 이메일이 양식에 맞으므로 cf. isEmail은 이메일이 양식에 맞는지 확인하는 boolean 값
+                    // console.log(isEmail);
+                    $.ajax({ // 비밀번호 유효성 검증 후 저장하는 ajax
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         url: "/auth_store",
                         type: "post",
@@ -130,29 +127,28 @@
                         success: function (data) {
                             // console.log(data['success']);
 
-                            if(data['success']==-2){
+                            if(data['success']==-2){ // 비밀번호 유효성에서 최소 8자리 위반 시
                                 $('#passwordcheck').text("최소 8자리 이상이여야합니다");
                                 $('#passwordcheck').css("color", "red");
                             }
-                            if(data['success']==-1){
+                            if(data['success']==-1){ // 비밀번호 정규식 위반 시
                                 $('#passwordcheck').text("대소문자, 숫자, 특수문자를 포함해야합니다");
                                 $('#passwordcheck').css("color", "red");
                             }
-                            if(data['success']==0){
+                            if(data['success']==0){ // 비밀번호와 비밀번호 확인이 불일치 시
                                 $('#passwordcheck').text("비밀번호가 일치하지 않습니다");
                                 $('#passwordcheck').css("color", "red");
                             }
-                            if(data['success']==1){
+                            if(data['success']==1){ // 정상 alert
                                 alert(name+ "님 관리자로 정상 등록되었습니다");
                                 window.location.href='{{route('login')}}';
                             }
                         },
                         error: function (request, status, error) {
-                            // 통신에 문제가 발생했을 때 함수를 실행
                             console.log('오류 발생!');
                         }
                     });
-                }else{
+                }else{ // 이메일이 양식에 맞지 않는 경우
                     alert("가입할 수 없는 이메일입니다");
                 }
             })

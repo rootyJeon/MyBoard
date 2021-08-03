@@ -20,7 +20,7 @@ class CreateBrandsTable extends Migration
             $table->integer('cnt');
             $table->longText('introduction');
             $table->timestamps();
-            $table->SoftDeletes();
+            $table->SoftDeletes(); // 소프트 딜리트 처리
         });
     }
 

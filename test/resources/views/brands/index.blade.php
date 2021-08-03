@@ -44,7 +44,7 @@
         </div>
 
         <div class="container">
-            <center>{!! $brands->links('vendor.pagination.custom') !!}
+            <center>{!! $brands->links('vendor.pagination.custom') !!}</center>
         </div>
 
     </section>

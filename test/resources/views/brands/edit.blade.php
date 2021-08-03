@@ -40,11 +40,11 @@
     <script>
         $(function(){
 
-            $("#update_btn").click(function(){
+            $("#update_btn").click(function(){ // 브랜드 수정 버튼 클릭 시
                 var form = $("#frm")[0];
                 var formData = new FormData(form);
 
-                $.ajax({
+                $.ajax({ // 브랜드 수정하는 ajax
                     headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
                     url: '/brands/{{$brand->id}}/update',
                     type: "post",
@@ -55,18 +55,18 @@
                     processData: false,
                     contentType: false,
                     success: function(data){
-                        console.log(data);
+                        // console.log(data);
                         var op = data['success'];
-                        if(op == 1){
+                        if(op == 1){ // 수정한 입력값이 브랜드에 대한 유효성 검증을 통과했을 경우
                             alert("{{$brand->kor_name}}({{$brand->eng_name}})에서 " + $("#kor_name").val() + "(" + $("#eng_name").val() + ") (으)로 수정되었습니다");
-                            window.location.href="{{route('brands.index')}}";
-                        }else if(op == 0){
+                            window.location.href="{{route('brands.index')}}"; // 브랜드 게시판으로 이동
+                        }else if(op == 0){ // 유효성 검증 중 소개문구에서 중복 확인 시
                             alert("이미 존재하는 소개문구입니다.");
-                        }else if(op == -1){
+                        }else if(op == -1){ // 유효성 검증 중 영문명에서 중복 확인 시
                             alert("이미 존재하는 영문명입니다.");
-                        }else if(op == -2){
+                        }else if(op == -2){ // 유효성 검증 중 한글명에서 중복 확인 시
                             alert("이미 존재하는 한글명입니다.");
-                        }else{
+                        }else{ // 변경사항 없이 브랜드 수정버튼을 누른 경우
                             alert("변경사항이 없습니다.");
                         }
                     },

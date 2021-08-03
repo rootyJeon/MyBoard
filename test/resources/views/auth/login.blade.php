@@ -31,29 +31,29 @@
     <script>
     $(function(){
 
-        var userId = getCookie("cookieUserId");
-        $("#email").val(userId);
+        var userId = getCookie("cookieUserId"); // 쿠키를 얻어와서
+        $("#email").val(userId); // 쿠키의 이메일 표시
 
         if($("#email").val() != ""){ // 쿠키에 만료되지 않은 아이디가 있어 입력됐다면 체크박스가 체크되도록 표시
             $("#remember").attr("checked", true);
         }
 
-        $("#loginsubmit").click(function(){
+        $("#loginsubmit").click(function(){     // 로그인 버튼 클릭시
             var form = $("#frm")[0];            // id="frm" 안에 있는 모든 내용을 가져온다.
             var formData = new FormData(form);  // 파일을 비동기 방식으로 전송하기 위해서 formData 사용
             // form으로 안하니까 통신이 안되네?!
 
             if($("#remember").is(":checked")){ // ID 기억하기 체크시 쿠키에 저장
                 var userId = $("#email").val();
-                setCookie("cookieUserId", userId, 7);
+                setCookie("cookieUserId", userId, 7); // 7일동안 쿠키에 저장
             }else{
-                deleteCookie("cookieUserId");
+                deleteCookie("cookieUserId"); // ID 기억하기 체크하지 않을 시 쿠키 삭제
             }
 
             var password=$("#password").val();
             var email=$("#email").val();
 
-            $.ajax({ // 계속 ajax에서 안되네
+            $.ajax({ // 로그인을 위한 ajax 통신
                 headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
                 url: "/login_attempt",
                 type: "post",
@@ -66,10 +66,10 @@
                 success:function(data){
                     //console.log(data);
                     if(data['success']==1){
-                        window.location.href="{{route('boards.index')}}";
+                        window.location.href="{{route('boards.index')}}"; // 로그인 성공시 카테고리 게시판으로 이동
                     }else{
                         alert("아이디 또는 비밀번호가 틀렸습니다");
-                        window.location.href="{{route('login')}}";
+                        window.location.href="{{route('login')}}"; // 로그인 실패시 다시 로그인 페이지 이동
                     }
                 },
                 error:function(data){
@@ -78,20 +78,20 @@
             });
         })
 
-        function setCookie(cookieName, value, exdays){ // Function for Setting the Cookie
+        function setCookie(cookieName, value, exdays){ // 쿠키를 세팅하는 함수
             var exdate = new Date();
             exdate.setDate(exdate.getDate() + exdays);
             var cookieValue = escape(value)+((exdays==null)? "" : "; expires="+exdate.toGMTString());
             document.cookie = cookieName+"="+cookieValue;
         }
 
-        function deleteCookie(cookieName){ // Cookie Delete Function
+        function deleteCookie(cookieName){ // 쿠키를 삭제하는 함수
             var expireDate = new Date();
             expireDate.setDate(expireDate.getDate()-1);
             document.cookie = cookieName+"= "+"; expires="+expireDate.toGMTString();
         }
 
-        function getCookie(cookieName){ // Function to get a Cookie
+        function getCookie(cookieName){ // 쿠키를 얻어오는 함수
             cookieName = cookieName + '=';
             var cookieData = document.cookie;
             var start = cookieData.indexOf(cookieName);

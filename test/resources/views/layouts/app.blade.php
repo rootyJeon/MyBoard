@@ -15,11 +15,11 @@
             list-style: none;
             color:red;
         }
-        label, textarea{ /* 구글갓글 만만세 와이씨 무슨 ㅋㅋㅋㅋㅋㅋㅋㅋㅋ */
+        label, textarea{ /* textarea를 label 옆에 정렬하기 위한 css */
             display: inline-block;
             vertical-align: top;
         }
-        .filebox label {
+        .filebox label { /*input=file의 customization*/
         display: inline-block;
         padding: .5em .75em;
         color: #fff;

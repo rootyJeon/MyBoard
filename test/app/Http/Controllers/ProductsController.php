@@ -10,6 +10,7 @@ use App\Models\Brand;
 
 class ProductsController extends Controller
 {
+
     public function index(){
         $products = Product::orderByDesc('id')->paginate(8);
         return view('products.index', compact('products'));
@@ -21,6 +22,14 @@ class ProductsController extends Controller
         return view('products.create', compact('brands', 'boards'));
     }
 
+    public function add(Request $request){
+        $cat = $request->only('category');
+        return response()->json([$cat]);
+    }
 
+    public function cat(Request $request){
+        $arr = $request['arr'];
+        return response()->json([$arr]);
+    }
 
 }

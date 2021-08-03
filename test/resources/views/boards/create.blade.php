@@ -35,14 +35,14 @@
     <script>
         $(function(){
 
-            $("#reg").click(function(){
+            $("#reg").click(function(){ // 등록 버튼이 눌린다면
                 var form = $("#frm")[0];
                 var formData = new FormData(form);
 
                 var name = $("#name").val();
-                console.log(name);
+                // console.log(name);
 
-                $.ajax({
+                $.ajax({ // 유효성 검사 후 등록하는 함수
                     headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
                     url: "/boards/store", // 하... web.php의 prefix가 boards이니 url도 맞춰줘야한다..
                     type: "post",
@@ -54,9 +54,9 @@
                     contentType: false,
                     success:function(data){
                         // console.log(data);
-                        if(data['success']){
-                            window.location.href="{{route('boards.index')}}";
-                        }else{
+                        if(data['success']){ // 카테고리명이 중복되지 않는다면
+                            window.location.href="{{route('boards.index')}}"; // 카테고리 페이지로 이동한다
+                        }else{ // 카테고리명이 중복되었다면 중복 사실 alert
                             alert("중복된 카테고리명입니다");
                         }
                     },
@@ -67,7 +67,9 @@
 
             })
 
-            $('#not_use').click(function(){
+            // 여기부턴 radio button을 몰라서 checkbox 만으로 turn off 기능을 구현했다가 아직 radio button으로 업데이트를 못한 안타까운 구간입니다..
+            // 이 구현상에서는 ajax 방식이 두번 돌아가게 되면서 느리다는 문제점이 있다.
+            $('#not_use').click(function(){ // 미사용 체크박스 클릭시
                 var form = $("#frm")[0];
                 var formData = new FormData(form);
 
@@ -83,7 +85,7 @@
                     contentType: false,
                     success:function(data){
                         // console.log(data);
-                        if(data['success']){
+                        if(data['success']){ // 한쪽이 체크되면 다른 한쪽이 체크되는 방식, .prop를 통해 반대쪽 박스를 체크시켰다.
                             $("#use").prop("checked", false);
                         }else{
                             $("#use").prop("checked", true);
@@ -95,7 +97,7 @@
                 });
             })
 
-            $('#use').click(function(){
+            $('#use').click(function(){ // 사용 버튼 클릭 시 미사용 박스와 동일한 방식으로 작동된다. 한 쪽에서 클릭이 되면 반대쪽 박스를 체크시켜주는 기능
                 var form = $("#frm")[0];
                 var formData = new FormData(form);
 

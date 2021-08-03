@@ -72,6 +72,9 @@ Route::delete('{brand}/delete', [BrandsController::class, 'destroy']) -> name('b
 Route::middleware('auth') -> prefix('products') -> group(function(){
 Route::get('/', [ProductsController::class, 'index']) -> name('products.index');
 Route::get('create', [ProductsController::class, 'create']) -> name('products.create');
+Route::post('add', [ProductsController::class, 'add']) -> name('products.add');
+Route::post('store', [ProductsController::class, 'store']) -> name('products.store');
+Route::post('cat', [ProductsController::class, 'cat']) -> name('products.cat');
 });
 
 /*

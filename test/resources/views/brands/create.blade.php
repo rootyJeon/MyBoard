@@ -40,11 +40,11 @@
     <script>
         $(function(){
             
-            $("#reg").click(function(){
+            $("#reg").click(function(){ // 브랜드 등록 버튼 클릭 시
                 var form = $("#frm")[0];
                 var formData = new FormData(form);
 
-                $.ajax({
+                $.ajax({ // 브랜드를 새로 등록하는 ajax
                     headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
                     url: "/brands/store",
                     type: "post",
@@ -56,15 +56,15 @@
                     success: function(data){
                         console.log($("#kor_name").val());
                         $op = data['success'];
-                        if($op == 1){
-                            alert($("#kor_name").val() + "(" + $("#eng_name").val() + ")이(가) 정상적으로 등록되었습니다");
-                            window.location.href="{{route('brands.index')}}"
+                        if($op == 1){ // 입력값들이 유효성 검증을 정상 통과했을 경우
+                            alert($("#kor_name").val() + "(" + $("#eng_name").val() + ")이(가) 정상적으로 등록되었습니다"); // 정상 등록 alert 후
+                            window.location.href="{{route('brands.index')}}" // 브랜드 게시판으로 이동
                         }
-                        if($op == 0){
+                        if($op == 0){ // 유효성 검증 중 영문명에서 중복 발생 시
                             alert("동일한 영문명이 존재합니다");
                         }
-                        if($op == -1){
-                            alert("동일한 상품이 존재합니다");
+                        if($op == -1){ // 유효성 검증 중 한글명에서 중복 발생 시
+                            alert("동일한 브랜드가 존재합니다");
                         }
                     },
                     error:function(data){
