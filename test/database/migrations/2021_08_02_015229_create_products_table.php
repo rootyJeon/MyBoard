@@ -20,7 +20,7 @@ class CreateProductsTable extends Migration
             $table->integer('o_price');
             $table->integer('s_price');
             $table->string('image_path');
-            $table->foreignId('brand_id'); // 일대다 관계를 위한 외래키
+            $table->foreignId('brand_id')->nullable(); // 일대다 관계를 위한 외래키
             $table->timestamps();
             $table->SoftDeletes(); // 소프트 딜리트 처리
         });

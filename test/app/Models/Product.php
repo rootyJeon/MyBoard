@@ -12,8 +12,8 @@ class Product extends Model
     use SoftDeletes;
     protected $fillable = ['name', 'status', 'o_price', 's_price', 'image_path', 'brand_id'];
 
-    public function board(){
-        return $this->hasMany('App\Models\Board');
+    public function category(){
+        return $this->hasMany('App\Models\Category');
     }
 
     public function brand(){

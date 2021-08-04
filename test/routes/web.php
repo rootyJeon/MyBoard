@@ -1,15 +1,15 @@
 <?php
 
-// use App\Http\Controllers\BoardController;
+// use App\Http\Controllers\CategoriesController;
 
 /*
-Route::get('/boards', 'App\Http\Controllers\BoardController@index');
-Route::get('/boards/create', 'App\Http\Controllers\BoardController@create');
-Route::post('/boards', 'App\Http\Controllers\BoardController@store');
-Route::get('/boards/{board}', 'App\Http\Controllers\BoardController@show');
-Route::get('/boards/{board}/edit', 'App\Http\Controllers\BoardController@edit');
-Route::put('/boards/{board}', 'App\Http\Controllers\BoardController@update');
-Route::delete('/boards/{board}', 'App\Http\Controllers\BoardController@destroy');
+Route::get('/categories', 'App\Http\Controllers\CategoriesController@index');
+Route::get('/categories/create', 'App\Http\Controllers\CategoriesController@create');
+Route::post('/categories', 'App\Http\Controllers\CategoriesController@store');
+Route::get('/categories/{category}', 'App\Http\Controllers\CategoriesController@show');
+Route::get('/categories/{category}/edit', 'App\Http\Controllers\CategoriesController@edit');
+Route::put('/categories/{category}', 'App\Http\Controllers\CategoriesController@update');
+Route::delete('/categories/{category}', 'App\Http\Controllers\CategoriesController@destroy');
 */
 
 /*
@@ -17,17 +17,17 @@ Route::get('/', function(){
     return view('home');
 }) -> name('home');
 
-Route::get('boards', function(){
-    return view('boards.index');
-}) -> name('boards.index');
+Route::get('categories', function(){
+    return view('categories.index');
+}) -> name('categories.index');
 
-Route::get('boards/create', function(){
-    return view('boards.create');
-}) -> name('boards.create');
+Route::get('categories/create', function(){
+    return view('categories.create');
+}) -> name('categories.create');
 */
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\BoardController;
+use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\BrandsController;
@@ -45,19 +45,19 @@ Route::get('auth/login', [LoginController::class, 'index']) -> name('login');
 Route::post('/login_attempt', [LoginController::class, 'login']) -> name('auth.login.attempt');
 Route::post('auth/logout', [LoginController::class, 'logout']) -> name('auth.logout');
 
-Route::middleware('auth') -> prefix('boards') -> group(function(){ // Prefix 쓴 것 기억할 것!
-Route::get('/', [BoardController::class, 'index']) -> name('boards.index');
-Route::get('create', [BoardController::class, 'create']) -> name('boards.create');
-// Route::post('/', [BoardController::class, 'store']) -> name('boards.store');
-Route::get('{board}', [BoardController::class, 'show']) -> name('boards.show');
-Route::get('{board}/edit', [BoardController::class, 'edit']) -> name('boards.edit');
-Route::post('{board}/update', [BoardController::class, 'update']) -> name('boards.update');
-Route::delete('{board}/delete', [BoardController::class, 'destroy']) -> name('boards.delete');
-Route::get('/{board}/usable_status', [BoardController::class, 'usable_status']) -> name('boards.usable_status');
+Route::middleware('auth') -> prefix('categories') -> group(function(){ // Prefix 쓴 것 기억할 것!
+Route::get('/', [CategoriesController::class, 'index']) -> name('categories.index');
+Route::get('create', [CategoriesController::class, 'create']) -> name('categories.create');
+// Route::post('/', [CategoriesController::class, 'store']) -> name('categories.store');
+Route::get('{category}', [CategoriesController::class, 'show']) -> name('categories.show');
+Route::get('{category}/edit', [CategoriesController::class, 'edit']) -> name('categories.edit');
+Route::post('{category}/update', [CategoriesController::class, 'update']) -> name('categories.update');
+Route::delete('{category}/delete', [CategoriesController::class, 'destroy']) -> name('categories.delete');
+Route::get('/{category}/usable_status', [CategoriesController::class, 'usable_status']) -> name('categories.usable_status');
 
-Route::post('/store', [BoardController::class, 'store']) -> name('boards.store');
-Route::post('/not_usable', [BoardController::class, 'not_usable']) -> name('boards.not_usable');
-Route::post('/is_usable', [BoardController::class, 'is_usable']) -> name('boards.is_usable');
+Route::post('/store', [CategoriesController::class, 'store']) -> name('categories.store');
+Route::post('/not_usable', [CategoriesController::class, 'not_usable']) -> name('categories.not_usable');
+Route::post('/is_usable', [CategoriesController::class, 'is_usable']) -> name('categories.is_usable');
 });
 
 Route::middleware('auth') -> prefix('brands') -> group(function(){
@@ -78,13 +78,13 @@ Route::post('cat', [ProductsController::class, 'cat']) -> name('products.cat');
 });
 
 /*
-Route::get('boards', [BoardController::class, 'index']) -> name('boards.index');
-Route::get('boards/create', [BoardController::class, 'create']) -> name('boards.create');
-Route::post('boards', [BoardController::class, 'store']) -> name('boards.store');
-Route::get('boards/{board}', [BoardController::class, 'show']) -> name('boards.show');
-Route::get('boards/{board}/edit', [BoardController::class, 'edit']) -> name('boards.edit');
-Route::put('boards/{board}', [BoardController::class, 'update']) -> name('boards.update');
-Route::delete('boards/{board}', [BoardController::class, 'destroy']) -> name('boards.delete');
+Route::get('categories', [CategoriesController::class, 'index']) -> name('categories.index');
+Route::get('categories/create', [CategoriesController::class, 'create']) -> name('categories.create');
+Route::post('categories', [CategoriesController::class, 'store']) -> name('categories.store');
+Route::get('categories/{category}', [CategoriesController::class, 'show']) -> name('categories.show');
+Route::get('categories/{category}/edit', [CategoriesController::class, 'edit']) -> name('categories.edit');
+Route::put('categories/{category}', [CategoriesController::class, 'update']) -> name('categories.update');
+Route::delete('categories/{category}', [CategoriesController::class, 'destroy']) -> name('categories.delete');
 
 Route::post('auth/register', [RegisterController::class, 'store']) -> name('auth.register.store');s
 */

@@ -3,7 +3,7 @@
 @section('section')
     <section class="w-2/3 mx-auto mt-8">
         <div class="flex w-full justify-between">
-            <div class="flex-initial text-2xl text-yellow-500"><a href="{{route('boards.index')}}">카테고리 메뉴</a></div>
+            <div class="flex-initial text-2xl text-yellow-500"><a href="{{route('categories.index')}}">카테고리 메뉴</a></div>
             <div class="flex-initial text-2xl text-yellow-500"><a href="{{route('brands.index')}}">브랜드 메뉴</a></div>
             <div class="flex-initial text-2xl text-yellow-500"><a href="{{route('products.index')}}">상품관리 메뉴</a></div>
             <div class="flex-initial text-2xl text-yellow-500">메뉴4</div>

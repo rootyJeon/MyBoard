@@ -32,7 +32,7 @@
                         <tr>
                             <td><center>{{$product->id}}</td>
                             <td><center>{{$product->brand->kor_name}}</td>
-                            <td><center>카테고리</td>
+                            <td><center>{{$product->board}}</td>
                             <td><center>{{$product->name}}</td>
                             <td><center>{{$product->status}}</td>
                             <td><center>{{$product->o_price}}</td>

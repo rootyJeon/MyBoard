@@ -63,14 +63,14 @@
 @section('header')
     <header class="w-2/3 mx-auto mt-16 text-right">
         @guest()
-            <a href="{{route('boards.index')}}" class="text-xl"><b>게시판</b></a>
+            <a href="{{route('categories.index')}}" class="text-xl"><b>게시판</b></a>
             <a href="{{route('auth.register.index')}}" class="text-xl"><b>&nbsp관리자 등록&nbsp</b></a>
             <a href="{{route('login')}}" class="text-xl"><b>로그인</b></a>
         @endguest
 
         @auth()
             <span class="text-xl text-blue-500"><font size=2>{{auth()->user()->name}}님 환영합니다 </font></span>
-            <a href="{{route('boards.index')}}" class="text-xl"><b>&nbsp메인 게시판</b></a>
+            <a href="{{route('categories.index')}}" class="text-xl"><b>&nbsp메인 게시판</b></a>
             <form action="/auth/logout" method="post" class="inline-block">
                 @csrf
                 <a href="{{route('auth.logout')}}"><button class="text-xl"><b>로그아웃</b></button></a>
