@@ -43,7 +43,7 @@
     <script>
         $(function(){
             var isEmail = 0;
-            // 이메일 msg
+
             $("#email").keyup(function(e){
                 e.preventDefault();
 

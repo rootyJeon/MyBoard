@@ -66,7 +66,7 @@
                 success:function(data){
                     //console.log(data);
                     if(data['success']==1){
-                        window.location.href="{{route('boards.index')}}"; // 로그인 성공시 카테고리 게시판으로 이동
+                        window.location.href="{{route('categories.index')}}"; // 로그인 성공시 카테고리 게시판으로 이동
                     }else{
                         alert("아이디 또는 비밀번호가 틀렸습니다");
                         window.location.href="{{route('login')}}"; // 로그인 실패시 다시 로그인 페이지 이동

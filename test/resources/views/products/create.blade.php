@@ -16,8 +16,8 @@
                 <label for="category" class="inline-block w-2/5 text-right mr-4">카테고리</label>
                 <select name="category" id="category" class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg" style="width:180px">
                     <option value="">카테고리 선택</option>
-                    @foreach ($boards as $board)
-                    <option value="{{$board->id}}">{{$board->name}}</option>
+                    @foreach ($categories as $category)
+                    <option value="{{$category->id}}">{{$category->name}}</option>
                     @endforeach
                 </select>
                 <input type="button" value="추가" id="add" style="width:50pt"
@@ -101,7 +101,6 @@
                     }else{
                         alert("카테고리가 중복되어 추가할 수 없습니다");
                     }
-                    alert(arr);
                 },
                 error: function(data){
                     console.log("오류!");
