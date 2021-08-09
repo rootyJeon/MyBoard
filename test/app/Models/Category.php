@@ -10,9 +10,10 @@ class Category extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['name', 'usable', 'product_id'];
+    
+    protected $fillable = ['name', 'usable'];
 
     public function product(){
-        return $this->belongsTo('App\Models\Product');
+        return $this->belongsToMany('App\Models\Product', 'category_products');
     }
 }

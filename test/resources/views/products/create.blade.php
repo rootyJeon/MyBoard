@@ -56,7 +56,7 @@
                 <img scr="" id="preview" height="250" width="250" class="ml-11" align="center"/><br>
                 <div class="filebox">
                     <label for="ex_file" class="ml-11">상품이미지 등록</label>
-                    <input type="file" id="ex_file" accept=".jpg,.jpeg,.png"/>
+                    <input type="file" id="ex_file" name="ex_file" accept=".jpg,.jpeg,.png"/>
                 </div>
             </center>
             </p><br>
@@ -94,8 +94,7 @@
                             alert("카테고리를 3개 이상 고를 수 없습니다");
                         }else{
                             console.log(data[0]['category']);
-                            $("#catcheck").append("* " + $("#category").find('option:selected').text() +' ');
-                            $("#catcheck").append('<font color="red"><input type="button" value="&#215;" id="remove" class="outline:none;"/></font> ');
+                            $("#catcheck").append("* " + $("#category").find('option:selected').text() +' <font color="red"><input type="button" value="&#215;" id="remove" class="outline:none;"/></font></div> ');
                             arr.push(data[0]['category']);
                         }
                     }else{
@@ -111,6 +110,9 @@
         $("#reg").click(function(){
             var form = $("#frm")[0];
             var formData = new FormData(form);
+            for(var i=0; i<arr.length; ++i){
+                formData.append('arr[]', arr[i]);
+            }
 
             $.ajax({
                 headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
@@ -122,21 +124,22 @@
                 contentType: false,
                 success: function(data){
                     console.log(data);
+                    // window.location.href="{{route('products.index')}}";
                 },
                 error: function(data){
                     console.log("오류!");
                 }
             });          
 
-            $.ajax({
-                headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-                url: "/products/cat",
-                type: "post",
-                data: {arr:arr},
-                success: function(data){
-                    console.log(data);
-                }
-            });
+            // $.ajax({
+            //     headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+            //     url: "/products/cat",
+            //     type: "post",
+            //     data: {arr:arr},
+            //     success: function(data){
+            //         console.log(data);
+            //     }
+            // });
         })
 
         $('#ex_file').change(function(){

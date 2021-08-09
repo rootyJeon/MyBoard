@@ -10,10 +10,10 @@ class Product extends Model
 {
     use HasFactory;
     use SoftDeletes;
-    protected $fillable = ['name', 'status', 'o_price', 's_price', 'image_path', 'brand_id'];
+    protected $fillable = ['name', 'status', 'o_price', 's_price', 'image_name', 'image_path', 'brand_id'];
 
     public function category(){
-        return $this->hasMany('App\Models\Category');
+        return $this->belongsToMany('App\Models\Category', 'category_products');
     }
 
     public function brand(){

@@ -15,10 +15,10 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name', 25);
             $table->boolean('usable');
-            $table->foreignId('product_id')->nullable(); // 일대다 관계를 위한 외래키
-            $table->timestamps();
+            $table->timestamp('created_at')->nullable(false);
+            $table->timestamp('updated_at')->nullable(false);
             $table->SoftDeletes(); // 소프트 딜리트 처리
         });
     }

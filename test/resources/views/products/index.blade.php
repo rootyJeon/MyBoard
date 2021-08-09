@@ -24,6 +24,7 @@
                         <th><center>정가</th>
                         <th><center>판매가</th>
                         <th><center>할인율</th>
+                        <th><center>상품사진</th>
                         <th><center>관리</th>
                     </tr>
                 </thead>
@@ -32,12 +33,24 @@
                         <tr>
                             <td><center>{{$product->id}}</td>
                             <td><center>{{$product->brand->kor_name}}</td>
-                            <td><center>카테고리</td>
+                            <td><center>
+                                @foreach($product->category as $cat)
+                                    <font size=3>{{$cat->name}}</font>
+                                @endforeach
+                            </td>
                             <td><center>{{$product->name}}</td>
                             <td><center>{{$product->status}}</td>
-                            <td><center>{{$product->o_price}}</td>
-                            <td><center>{{$product->s_price}}</td>
-                            <td><center>할인율</td>
+                            <td><center><text id="o_price">{{$product->o_price}}</text></td>
+                            <td><center><text id="s_price">{{$product->s_price}}</text></td>
+                            <td><center>
+                                <script>
+                                    var o_price="{{$product->o_price}}";
+                                    var s_price="{{$product->s_price}}";
+                                    var res=(o_price - s_price) * 100 / o_price;
+                                    document.write(res.toFixed(1) + "%");
+                                </script>
+                            </td>
+                            <td><center><img src="storage/images/{{$product->image_name}}" alt="" title="" height="120" width="120"/></td>
                             <td><center><button class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-700">수정</button>
                                         <button class="px-4 py-2 text-white bg-red-500 hover:bg-red-700">삭제</button></td>
                         </tr>
@@ -51,8 +64,4 @@
         </div>
 
     </section>
-
-    <script>
-
-    </script>
 @stop
