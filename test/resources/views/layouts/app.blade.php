@@ -10,6 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/parsley.js/2.0.0/parsley.min.js" integrity="sha512-83WT9hUVM+iU1MUFfipwr7JcCGriOEmzijo1EiHf30IXsMyMKRTy33uTl1prtJNGc2AlJJxEFVTTIQhai7az3A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="/js/app.js"></script>
     <style>
         .parsley-errors-list li{
             list-style: none;
@@ -52,6 +54,10 @@
         clip: rect(0, 0, 0, 0);
         border: 0;
         }
+
+        .ex_div {margin-bottom:50px;}
+        .ex_div .form-group {margin-bottom:20px;}
+        .ex_div .text {border:1px solid #999; line-height:inherit; padding:5px;}
     </style>
     
     <meta http-equiv="X-UA-Compatible" content="ie=edge">

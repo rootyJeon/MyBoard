@@ -26,21 +26,15 @@ class CreateExampleTable extends Migration
             $table->increments('idx');
 
             // string
-            $table->string('title', 100)->default('')->comment('에코 브랜드명');
-            $table->string('updated_user', 100)->nullable()->comment('수정관리자');
+            $table->string('title', 100)->default('')->comment('string varchar 100');
+            $table->string('title_sub', 100)->nullable()->comment('string varchar 100 nullable');
 
             // boolean
-            $table->boolean('is_use')->default(true)->comment('사용 여부');
+            $table->boolean('isuse')->default(true)->comment('boolean tinyint default 1');
 
             // dateTime
-            $table->dateTime('display_start_at')->comment('노출 시작일');
-            $table->dateTime('display_end_at')->comment('노출 시작일');
-
-            // text
-            $table->text('url')->comment('링크 URL');
-
-            // unsignedInteger
-            $table->unsignedInteger('order_seq')->default(0)->comment('정렬 순서값');
+            $table->dateTime('start_at')->comment('datetime');
+            $table->dateTime('end_at')->comment('datetime');
 
             // timestamps
             $table->timestamps();
