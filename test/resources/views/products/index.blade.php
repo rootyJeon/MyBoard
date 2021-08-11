@@ -9,9 +9,9 @@
             <div class="flex-initial text-2xl text-yellow-500">메뉴4</div>
         </div><br><br>
         <div>
-            <button class="px-4 py-2 text-white bg-green-500 hover:bg-green-700"><a href="{{route('products.create')}}">상품 등록</a></button>
+            <a href="{{route('products.create')}}"><button class="px-4 py-2 text-white bg-green-500 hover:bg-green-700">상품 등록</button></a>
         </div>
-        <div class="text-right" name="total_products"><font size=4>총 상품수 <b>{{$products->total()}}</b>개<font></div>
+        <div class="text-right" name="total_products"><font size=4>총 상품수 <b>{{$products->total()}}</b>개</font></div>
         <div class="container">
             <table class="table">
                 <thead>
@@ -39,7 +39,15 @@
                                 @endforeach
                             </td>
                             <td><center>{{$product->name}}</td>
-                            <td><center>{{$product->status}}</td>
+                            <td><center>
+                                <script>
+                                    var status="{{$product->status}}";
+                                    if(status==1) document.write("판매중");
+                                    if(status==2) document.write("일시품절");
+                                    if(status==3) document.write("품절");
+                                    if(status==4) document.write("판매중지");
+                                </script>
+                            </td>
                             <td><center><text id="o_price">{{$product->o_price}}</text></td>
                             <td><center><text id="s_price">{{$product->s_price}}</text></td>
                             <td><center>
@@ -51,8 +59,13 @@
                                 </script>
                             </td>
                             <td><center><img src="storage/images/{{$product->image_name}}" alt="" title="" height="120" width="120"/></td>
-                            <td><center><button class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-700">수정</button>
-                                        <button class="px-4 py-2 text-white bg-red-500 hover:bg-red-700">삭제</button></td>
+                            <td><center><a href="{{route('products.edit', $product->id)}}"><button class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-700">수정</button></a>
+                                <form action="/products/{{$product->id}}/delete" method="post">
+                                @csrf
+                                @method('DELETE')
+                                    <button class="px-4 py-2 text-white bg-red-500 hover:bg-red-700" name="del_btn" id="del_btn"
+                                            onclick="return confirm('{{$product->name}}을(를) 삭제하시겠습니까?')">삭제</button></td>
+                                </form>
                         </tr>
                     @endforeach
                 </tbody>

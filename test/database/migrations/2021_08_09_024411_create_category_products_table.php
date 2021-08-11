@@ -19,7 +19,6 @@ class CreateCategoryProductsTable extends Migration
             $table->foreignID('product_id');
             $table->timestamp('created_at')->nullable(false);
             $table->timestamp('updated_at')->nullable(false);
-            $table->SoftDeletes();
         });
     }
 

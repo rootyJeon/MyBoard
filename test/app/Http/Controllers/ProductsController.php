@@ -24,8 +24,15 @@ class ProductsController extends Controller
     }
 
     public function add(Request $request){
-        $cat = $request->only('category');
-        return response()->json([$cat]);
+        $category = $request->only('category');
+        return response()->json([$category]);
+    }
+
+    public function edit($id){
+        $brands = Brand::orderByDesc('id')->paginate(8);
+        $categories = Category::orderByDesc('id')->where('usable', 1)->paginate(8);
+        $products = Product::where('id', $id)->first();
+        return view('products.edit', compact('products', 'brands', 'categories'));
     }
 
     // public function cat(Request $request){
@@ -76,6 +83,56 @@ class ProductsController extends Controller
             //         ]);
         }
         return response()->json(['success' => 1]);
+    }
+
+    public function update(Request $request, $id){ // 상품 정보를 수정하는 함수
+
+        Product::where('id', $id)
+               ->update([
+                   'name' => $request->name,
+                   'status' => $request->status,
+                   'o_price' => $request->o_price,
+                   's_price' => $request->s_price,
+                   'brand_id' => $request->brand
+        ]);
+
+        if($request->file('ex_file') != null){
+            $img_name = $request->file('ex_file')->getClientOriginalName();
+            $img_path = $request->file('ex_file')->storeAs('public/images', $img_name);
+
+            Product::where('id', $id)
+            ->update([
+                'image_name' => $img_name,
+                'image_path' => $img_path
+            ]);
+        }
+
+        $arr = $request->arr;
+        if($arr != null){
+            sort($arr);
+            $idx = Product::where('id', $id)->first()->id;
+            Category_product::where('product_id', $idx)->delete();
+    
+            foreach($arr as $value){
+                Category_product::where('product_id', $idx)
+                                    ->create([
+                                        'category_id' => $value,
+                                        'product_id' => $idx
+                                    ]);
+            }
+        }
+        return response()->json(['success' => 1]);
+    }
+
+    public function status(Request $request, $id){ // 사용인지 미사용인지 확인하는 함수 db 데이터를 받아 넘겨준다
+        $product = Product::where('id', $id) -> first();
+        return response()->json([$product['status']]);
+    }
+
+    public function destroy($id){ // 상품을 삭제하는 함수
+        $product = Product::where('id', $id) -> first();
+        $product -> delete();
+        return redirect()->route('products.index');
     }
 
 }

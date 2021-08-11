@@ -53,7 +53,7 @@
             </p><br>
             <p>
             <center>
-                <img scr="" id="preview" height="250" width="250" class="ml-11" align="center"/><br>
+                <img id="preview" height="250" width="250" class="ml-11" align="center"/><br>
                 <div class="filebox">
                     <label for="ex_file" class="ml-11">상품이미지 등록</label>
                     <input type="file" id="ex_file" name="ex_file" accept=".jpg,.jpeg,.png"/>
@@ -87,15 +87,20 @@
                 processData: false,
                 contentType: false,
                 success: function(data){
-                    console.log(data[0]);
-                    var op = jQuery.inArray(data[0]['category'], arr);
-                    if(op === -1){
+                    // console.log(data[0]);
+                    var select = data[0]['category'];
+                    var op = jQuery.inArray(select, arr);
+                    if(select == null){
+                        alert("카테고리를 선택해주세요");
+                    }else if(op === -1){
                         if(arr.length > 2){
                             alert("카테고리를 3개 이상 고를 수 없습니다");
                         }else{
-                            console.log(data[0]['category']);
-                            $("#catcheck").append("* " + $("#category").find('option:selected').text() +' <font color="red"><input type="button" value="&#215;" id="remove" class="outline:none;"/></font></div> ');
-                            arr.push(data[0]['category']);
+                            // console.log(data[0]['category']);
+                            arr.push(select);
+                            var val=$("#category").find('option:selected').text();
+                            var code="<span class='added'>* " + val + " <font color='red'><input type='button' value='&#215;' onclick='$(this).parent().parent().remove(); removeInArr(" + select + ");' class='outline:none;'/></font></span> ";
+                            $("#catcheck").append(code);
                         }
                     }else{
                         alert("카테고리가 중복되어 추가할 수 없습니다");
@@ -106,6 +111,12 @@
                 }
             });
         })
+
+        function removeInArr(val){
+            var idx=arr.indexOf(String(val));
+            arr.splice(idx, 1);
+            console.log(arr);
+        }
 
         $("#reg").click(function(){
             var form = $("#frm")[0];
@@ -124,7 +135,7 @@
                 contentType: false,
                 success: function(data){
                     console.log(data);
-                    // window.location.href="{{route('products.index')}}";
+                    window.location.href="{{route('products.index')}}";
                 },
                 error: function(data){
                     console.log("오류!");

@@ -46,35 +46,38 @@ Route::post('/login_attempt', [LoginController::class, 'login']) -> name('auth.l
 Route::post('auth/logout', [LoginController::class, 'logout']) -> name('auth.logout');
 
 Route::middleware('auth') -> prefix('categories') -> group(function(){ // Prefix 쓴 것 기억할 것!
-Route::get('/', [CategoriesController::class, 'index']) -> name('categories.index');
-Route::get('create', [CategoriesController::class, 'create']) -> name('categories.create');
-// Route::post('/', [CategoriesController::class, 'store']) -> name('categories.store');
-Route::get('{category}', [CategoriesController::class, 'show']) -> name('categories.show');
-Route::get('{category}/edit', [CategoriesController::class, 'edit']) -> name('categories.edit');
-Route::post('{category}/update', [CategoriesController::class, 'update']) -> name('categories.update');
-Route::delete('{category}/delete', [CategoriesController::class, 'destroy']) -> name('categories.delete');
-Route::get('/{category}/usable_status', [CategoriesController::class, 'usable_status']) -> name('categories.usable_status');
+    Route::get('/', [CategoriesController::class, 'index']) -> name('categories.index');
+    Route::get('create', [CategoriesController::class, 'create']) -> name('categories.create');
+    // Route::post('/', [CategoriesController::class, 'store']) -> name('categories.store');
+    Route::get('{category}', [CategoriesController::class, 'show']) -> name('categories.show');
+    Route::get('{category}/edit', [CategoriesController::class, 'edit']) -> name('categories.edit');
+    Route::post('{category}/update', [CategoriesController::class, 'update']) -> name('categories.update');
+    Route::delete('{category}/delete', [CategoriesController::class, 'destroy']) -> name('categories.delete');
+    Route::get('/{category}/usable_status', [CategoriesController::class, 'usable_status']) -> name('categories.usable_status');
 
-Route::post('/store', [CategoriesController::class, 'store']) -> name('categories.store');
-Route::post('/not_usable', [CategoriesController::class, 'not_usable']) -> name('categories.not_usable');
-Route::post('/is_usable', [CategoriesController::class, 'is_usable']) -> name('categories.is_usable');
+    Route::post('/store', [CategoriesController::class, 'store']) -> name('categories.store');
+    Route::post('/not_usable', [CategoriesController::class, 'not_usable']) -> name('categories.not_usable');
+    Route::post('/is_usable', [CategoriesController::class, 'is_usable']) -> name('categories.is_usable');
 });
 
 Route::middleware('auth') -> prefix('brands') -> group(function(){
-Route::get('/', [BrandsController::class, 'index']) -> name('brands.index');
-Route::get('create', [BrandsController::class, 'create']) -> name('brands.create');
-Route::get('{brand}/edit', [BrandsController::class, 'edit']) -> name('brands.edit');
-Route::post('/store', [BrandsController::class, 'store']) -> name('brands.store');
-Route::post('{brand}/update', [BrandsController::class, 'update']) -> name('brands.update');
-Route::delete('{brand}/delete', [BrandsController::class, 'destroy']) -> name('brands.delete');
+    Route::get('/', [BrandsController::class, 'index']) -> name('brands.index');
+    Route::get('create', [BrandsController::class, 'create']) -> name('brands.create');
+    Route::get('{brand}/edit', [BrandsController::class, 'edit']) -> name('brands.edit');
+    Route::post('/store', [BrandsController::class, 'store']) -> name('brands.store');
+    Route::post('{brand}/update', [BrandsController::class, 'update']) -> name('brands.update');
+    Route::delete('{brand}/delete', [BrandsController::class, 'destroy']) -> name('brands.delete');
 });
 
 Route::middleware('auth') -> prefix('products') -> group(function(){
-Route::get('/', [ProductsController::class, 'index']) -> name('products.index');
-Route::get('create', [ProductsController::class, 'create']) -> name('products.create');
-Route::post('add', [ProductsController::class, 'add']) -> name('products.add');
-Route::post('store', [ProductsController::class, 'store']) -> name('products.store');
-Route::post('cat', [ProductsController::class, 'cat']) -> name('products.cat');
+    Route::get('/', [ProductsController::class, 'index']) -> name('products.index');
+    Route::get('create', [ProductsController::class, 'create']) -> name('products.create');
+    Route::get('{product}/edit', [ProductsController::class, 'edit']) -> name('products.edit');
+    Route::post('{product}/update', [ProductsController::class, 'update']) -> name('products.update');
+    Route::post('add', [ProductsController::class, 'add']) -> name('products.add');
+    Route::post('store', [ProductsController::class, 'store']) -> name('products.store');
+    Route::get('{product}/status', [ProductsController::class, 'status']) -> name('products.status');
+    Route::delete('{product}/delete', [ProductsController::class, 'destroy']) -> name('products.delete');
 });
 
 /*

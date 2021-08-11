@@ -35,7 +35,7 @@
                             @csrf
                             @method('DELETE')
                                 <button class="px-4 py-2 text-white bg-red-500 hover:bg-red-700" name="del_btn" id="del_btn"
-                                        onclick="return confirm('{{$brand->kor_name}}({{$brand->eng_name}})을 삭제하시겠습니까?')">삭제</button></td>
+                                        onclick="return confirm('{{$brand->kor_name}}({{$brand->eng_name}})을(를) 삭제하시겠습니까?')">삭제</button></td>
                         </form>
                     </tr>
                     @endforeach
