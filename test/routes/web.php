@@ -71,6 +71,7 @@ Route::middleware('auth') -> prefix('brands') -> group(function(){
 
 Route::middleware('auth') -> prefix('products') -> group(function(){
     Route::get('/', [ProductsController::class, 'index']) -> name('products.index');
+    Route::get('/search', [ProductsController::class, 'search']) -> name('products.search');
     Route::get('create', [ProductsController::class, 'create']) -> name('products.create');
     Route::get('{product}/edit', [ProductsController::class, 'edit']) -> name('products.edit');
     Route::post('{product}/update', [ProductsController::class, 'update']) -> name('products.update');

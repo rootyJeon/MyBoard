@@ -17,6 +17,35 @@ class ProductsController extends Controller
         return view('products.index', compact('products'));
     }
 
+    public function search(Request $request){
+        $names = explode(',', $request->name);
+        // $query = $this->where('name', 'LIKE', "%{$request->name}%");
+        $keyword = $request->keyword;
+        $status = $request->status;
+        $price = $request->price;
+        $min_price = $request->min_price;
+        $max_price = $request->max_price;
+        $date = $request->date;
+        $min_date = $request->min_date;
+        $max_date = $request->max_date;
+
+        
+        $query = Product::query();
+
+        foreach($names as $name){
+            $query = $query->orWhere($keyword, 'LIKE', "%{$name}%");
+        }
+        if($status != null) $query = $query->where('status', '=', $status);
+        if($min_price != null) $query = $query->where($price, '>=', $min_price);
+        if($max_price != null) $query = $query->where($price, '<=', $max_price);
+        if($min_date != null) $query = $query->where($date, '>=', $min_date);
+        if($max_date != null) $query = $query->where($date, '<=', $max_date);
+
+        $products = $query->orderByDesc('id')->paginate(8);
+        // $products = Product::query()->where('name', 'LIKE', "%{$request->word}%")->orderByDesc('id')->paginate(8);
+        return view('products.index', compact('products'));
+    }
+
     public function create(){
         $brands = Brand::orderByDesc('id')->paginate(8);
         $categories = Category::orderByDesc('id')->where('usable', 1)->paginate(8);

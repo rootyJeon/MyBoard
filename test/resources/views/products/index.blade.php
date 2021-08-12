@@ -8,6 +8,50 @@
             <div class="flex-initial text-2xl text-yellow-500"><a href="{{route('products.index')}}">상품관리 메뉴</a></div>
             <div class="flex-initial text-2xl text-yellow-500">메뉴4</div>
         </div><br><br>
+
+        <form action="/products/search" method="get" class="mt-8 w-full" id="frm">
+            <font size=4>
+            <p>
+                <label for="search" class="inline-block text-right mr-12">검색어</label>
+                <select name="keyword" id="price" class="outline-none border border-blue-400 w-1/5 pl-1 py-1 mr-4" style="width:100px">
+                    <option value="name">상품명</option>
+                    <option value="category">카테고리</option>
+                    <option value="brand">브랜드</option>
+                </select>
+                <input type="text" id="name" name="name" class="outline-none border border-blue-400 rounded-lg" style="width:205px">
+            </p><br>
+
+            <p>
+                <label for="status" class="inline-block text-right mr-16">상태</label>
+                <input type="checkbox" name="status" value="1">&nbsp판매중</input>
+                <input type="checkbox" name="status" value="2">&nbsp일시품절</input>
+                <input type="checkbox" name="status" value="3">&nbsp품절</input>
+                <input type="checkbox" name="status" value="4">&nbsp판매중지</input>
+                <input type="checkbox" name="status" value="4">&nbsp삭제</input>
+            </p><br>
+
+            <p>
+                <select name="price" id="price" class="outline-none border border-blue-400 w-1/5 pl-1 py-1 mr-6" style="width:80px">
+                    <option value="o_price">정가</option>
+                    <option value="s_price">판매가</option>
+                </select>
+                <input type="text" id="min_price" name="min_price" class="outline-none border border-blue-400 rounded-lg" style="width:150px">&nbsp~
+                <input type="text" id="max_price" name="max_price" class="outline-none border border-blue-400 rounded-lg" style="width:150px">
+            </p><br>
+
+            <p>
+                <select name="date" id="date" class="outline-none border border-blue-400 w-1/5 pl-1 py-1 mr-6" style="width:80px">
+                    <option value="created_at">등록일</option>
+                    <option value="updated_at">수정일</option>
+                </select>
+
+                <input type="date" id="min_date" name="min_date" class="outline-none border rounded-lg" style="width:150px">&nbsp~
+                <input type="date" id="max_date" name="max_date" class="outline-none border rounded-lg" style="width:150px">&nbsp
+                <input type="submit" class="px-4 py-2 text-white bg-yellow-500 hover:bg-yellow-700" id="btn_search" value="상품 검색"></input>
+            </p><br>
+            </font>
+        </form>
+        
         <div>
             <a href="{{route('products.create')}}"><button class="px-4 py-2 text-white bg-green-500 hover:bg-green-700">상품 등록</button></a>
         </div>
@@ -58,7 +102,7 @@
                                     document.write(res.toFixed(1) + "%");
                                 </script>
                             </td>
-                            <td><center><img src="storage/images/{{$product->image_name}}" alt="" title="" height="120" width="120"/></td>
+                            <td><center><img src="http://localhost:8000/storage/images/{{$product->image_name}}" alt="" title="" height="120" width="120"/></td>
                             <td><center><a href="{{route('products.edit', $product->id)}}"><button class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-700">수정</button></a>
                                 <form action="/products/{{$product->id}}/delete" method="post">
                                 @csrf
