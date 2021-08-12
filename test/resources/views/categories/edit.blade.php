@@ -12,12 +12,14 @@
                 <label for="number" class="inline-block w-2/5 text-right mr-4">카테고리 번호</label>
                 <input type="text" id="number" name="number" value="{{$category->id}}" disabled
                        class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg">
-            </p>
-            <br><p>
+            </p><br>
+            
+            <p>
                 <label for="name" class="inline-block w-2/5 text-right mr-4">카테고리명</label>
                 <input type="text" id="name" name="name" value="{{$category->name}}"
                        class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg">
             </p>
+            
             <p class="mt-4">
                 <label for="usable" class="inline-block w-2/5 text-right mr-4">사용여부</label>
                 <input type="checkbox" id="use" name="use" 
@@ -26,7 +28,7 @@
                        class="outline-none border border-blue-400 w-1/8 pl-1 py-1 rounded-lg">&nbsp미사용</input>
             </p>
 
-            <p class="mt-8">
+            <p class="mt-4">
                 <center>
                 <input type="button" value="수정" id="update"
                 class="px-4 py-1 bg-green-500 hover:bg-green-700 text-lg text-white">
@@ -54,7 +56,7 @@
                     processData: false,
                     contentType: false,
                     success:function(data){
-                        console.log(data);
+                        // console.log(data);
                         if(data == 1){ // db에 저장된 값이 1이라면
                             $("#use").prop("checked", true); // 사용 체크박스에 체크
                         }else{ // db에 저장된 값이 0이라면

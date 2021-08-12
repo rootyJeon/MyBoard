@@ -14,18 +14,21 @@
                        class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg">
                 <div class="font_size w-4/2 text-middle" id="korcheck"></div>
             </p><br>
+
             <p>
                 <label for="eng_name" class="inline-block w-2/5 text-right mr-4">영문명</label>
                 <input type="text" id="eng_name" name="eng_name"
                        class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg">
                 <div class="font_size w-4/2 text-middle" id="engcheck"></div>
             </p><br>
+
             <p>
                 <label for="introduction" class="inline-block w-2/5 text-right mr-4">소개문구</label>
                 <textarea style="overflow-x:hidden; overflow-y:auto;" id="introduction" name="introduction" rows="8"
                           class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg resize-none"></textarea>
                 <div class="font_size w-4/2 text-middle" id="introcheck"></div>
             </p><br>
+            
             <p>
                 <center>
                 <input type="button" value="등록" id="reg" style="width:190pt"

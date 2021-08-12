@@ -126,7 +126,15 @@ class ProductsController extends Controller
 
     public function status(Request $request, $id){ // 사용인지 미사용인지 확인하는 함수 db 데이터를 받아 넘겨준다
         $product = Product::where('id', $id) -> first();
-        return response()->json([$product['status']]);
+        $categories_info = Category_product::where('product_id', $id) -> get();
+        $category = array();
+        foreach($categories_info as $category_info){
+            array_push($category, $category_info->category_id);
+        }
+        return response()->json([
+            'status' => $product->status,
+            'category' => $category
+        ]);
     }
 
     public function destroy($id){ // 상품을 삭제하는 함수

@@ -13,6 +13,7 @@
                 <input type="text" id="name" name="name"
                        class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg">
             </p>
+            
             <p class="mt-4">
                 <label for="usable" class="inline-block w-2/5 text-right mr-4">사용여부</label>
                 <input type="checkbox" id="use" name="use" checked="checked"

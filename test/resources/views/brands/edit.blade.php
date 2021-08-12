@@ -13,19 +13,23 @@
                 <input type="text" id="number" name="number" value="{{$brand->id}}" disabled
                     class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg">
             </p><br>
+
             <p>
                 <label for="kor_name" class="inline-block w-2/5 text-right mr-4">한글명</label>
                 <input type="text" id="kor_name" name="kor_name" class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg" value="{{$brand->kor_name}}">
             </p><br>
+
             <p>
                 <label for="eng_name" class="inline-block w-2/5 text-right mr-4">영문명</label>
                 <input type="text" id="eng_name" name="eng_name" class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg" value="{{$brand->eng_name}}">
             </p><br>
+
             <p>
                 <label for="introduction" class="inline-block w-2/5 text-right mr-4">소개문구</label>
                 <textarea style="overflow-x:hidden; overflow-y:auto;" id="introduction" name="introduction" rows="8" 
                         class="outline-none border border-blue-400 w-1/5 pl-1 py-1 rounded-lg resize-none">{{$brand->introduction}}</textarea>
             </p><br>
+            
             <p>
                 <center>
                     <input type="button" value="수정" style="width:190pt" id="update_btn" name="update_btn"
