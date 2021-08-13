@@ -123,38 +123,86 @@
         }
 
         $("#reg").click(function(){
-            var form = $("#frm")[0];
-            var formData = new FormData(form);
-            for(var i=0; i<arr.length; ++i){
-                formData.append('arr[]', arr[i]);
-            }
+            var kalidator = new Kalidator(document.getElementById('frm'));
+            
+            var rules = {
+                'name' : ['required'],
+                'o_price' : ['required', 'number', 'minValue:0'],
+                's_price' : ['required', 'number', 'minValue:0'],
+            };
 
-            $.ajax({
-                headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-                url: "/products/store",
-                type: "post",
-                cache: false,
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data){
-                    console.log(data);
-                    window.location.href="{{route('products.index')}}";
+            var messages = {
+                'name.required': '상품명을 입력하세요',
+                'o_price.required' : '정가를 입력하세요',
+                'o_price.number' : '정가는 0 이상의 정수만 가능합니다',
+                'o_price.minValue' : '정가는 0 이상의 정수만 가능합니다',
+                's_price.required' : '판매가를 입력하세요',
+                's_price.number' : '판매가는 0 이상의 정수만 가능합니다',
+                's_price.minValue' : '판매가는 0 이상의 정수만 가능합니다',
+            };
+
+            kalidator
+            .setRules(rules)
+            .setMessages(messages)
+            .run({
+                pass: function(){
+                    var formData = $("#frm").serialize();
+                    console.log(formData);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/products/store",
+                        data: formData,
+                        success: function(res){
+                            alert(res.isSuccess);
+                            console.log(res);
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown){
+                            alert('통신 실패.');
+                            console.log(XMLHttpRequest.responseText);
+                        }
+                    });
                 },
-                error: function(data){
-                    console.log("오류!");
-                }
-            });          
+                fail: function(__errors){
+                    alert(kalidator.firstErrorMessage);
+                    return false;
+                },
+            });
+            return;
+
+
+            // var form = $("#frm")[0];
+            // var formData = new FormData(form);
+            // for(var i=0; i<arr.length; ++i){
+            //     formData.append('arr[]', arr[i]);
+            // }
 
             // $.ajax({
             //     headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-            //     url: "/products/cat",
+            //     url: "/products/store",
             //     type: "post",
-            //     data: {arr:arr},
+            //     cache: false,
+            //     data: formData,
+            //     processData: false,
+            //     contentType: false,
             //     success: function(data){
-            //         console.log(data);
+            //         console.log(data['message']);
+            //         // window.location.href="{{route('products.index')}}";
+            //     },
+            //     error: function(data){ // responseJson 이니까 방식이 다르지!
+            //         console.log(data[0]);
             //     }
             // });
+
+            // // $.ajax({
+            // //     headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
+            // //     url: "/products/cat",
+            // //     type: "post",
+            // //     data: {arr:arr},
+            // //     success: function(data){
+            // //         console.log(data);
+            // //     }
+            // // });
         })
 
         $('#ex_file').change(function(){

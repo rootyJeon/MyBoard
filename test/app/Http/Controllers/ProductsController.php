@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Support\Facades\Auth;
+use Illuminate\Http\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\Brand;
 use App\Models\Category_product;
+
 
 class ProductsController extends Controller
 {
@@ -44,7 +49,7 @@ class ProductsController extends Controller
             if($status != null) $query = $query->union($deleted);
             else $query = $query = $deleted;
         }
-        
+
         $products = $query->orderByDesc('id')->paginate(8);
         // $products = Product::query()->where('name', 'LIKE', "%{$request->word}%")->orderByDesc('id')->paginate(8);
         return view('products.index', compact('products'));
@@ -75,46 +80,83 @@ class ProductsController extends Controller
     // }
 
     public function store(Request $request){
-        $validator = Validator::make($request->only('name'), [
-            'name' => 'required|unique:products,name,NULL,id,deleted_at,NULL'
-        ]);
-        if(!$validator->passes()){
-            return response()->json(['success' => -1]);
-        }
 
-        $validator = Validator::make($request->only('o_price', 's_price'), [
-            'o_price' => 'required|integer',
-            's_price' => 'required|integer'
-        ]);
-        if(!$validator->passes()){
-            return response()->json(['success' => 0]);
-        }
+        try{
+            //data 확인
+            $data = $request->toArray();
 
-        $name = $request->file('ex_file')->getClientOriginalName();
-        $path = $request->file('ex_file')->storeAs('public/images', $name);
+            //data validation
+            $rules = array(
+                'name' => 'required|unique:products,name,NULL,id,deleted_at,NULL',
+                'o_price' => 'required|integer',
+                's_price' => 'required|integer'
+            );
 
-        Product::create([ // 한글명과 영문명 유효성 검사 모두 통과 시 새로운 브랜드로 등록
-            'name' => $request->name,
-            'status' => $request->status,
-            'o_price' => $request->o_price,
-            's_price' => $request->s_price,
-            'image_name' => $name,
-            'image_path' => $path,
-            'brand_id' => $request->brand,
-        ]);
-        
-        $arr = $request->arr;
-        $id = Product::where('name', $request->name)->first()->id;
-        foreach($arr as $value){
-            Category_product::create([
-                'category_id' => $value,
-                'product_id' => $id
+            $messages = array(
+                'name.required' => "상품명이 누락되었습니다.",
+                'name.unique' => "상품명이 중복되었습니다.",
+                'o_price.required' => "정가가 누락되었습니다.",
+                'o_price.integer' => "0이상의 정수만 입력할 수 있습니다.",
+                's_price.required' => "파매가가 누락되었습니다.",
+                's_price.integer' => "0이상의 정수만 입력할 수 있습니다.",
+            );
+
+            Validator::make($data, $rules, $messages)->validate();
+
+            $name = $request->file('ex_file')->getClientOriginalName();
+            $path = $request->file('ex_file')->storeAs('public/images', $name);
+    
+            Product::create([ // 한글명과 영문명 유효성 검사 모두 통과 시 새로운 브랜드로 등록
+                'name' => $request->name,
+                'status' => $request->status,
+                'o_price' => $request->o_price,
+                's_price' => $request->s_price,
+                'image_name' => $name,
+                'image_path' => $path,
+                'brand_id' => $request->brand,
             ]);
-            // Category::where('id', $key)
-            //         ->update([
-            //             'product_id' => 1
-            //         ]);
+            
+            $arr = $request->arr;
+            $id = Product::where('name', $request->name)->first()->id;
+            foreach($arr as $value){
+                Category_product::create([
+                    'category_id' => $value,
+                    'product_id' => $id
+                ]);
+                // Category::where('id', $key)
+                //         ->update([
+                //             'product_id' => 1
+                //         ]);
+            }
+
+            return response()->json([
+                'isSuccess' => 'success'
+            ]);
+
+        }catch(ValidationException $exception){
+            //throw new Exception($exception->validator->messages()->first());
+            return response()->json([
+                'isSuccess' => 'fail',
+                'message' => $exception->validator->messages()->first()
+            ]);
         }
+
+
+        // $validator = Validator::make($request->only('name'), [
+        //     'name' => 'required|unique:products,name,NULL,id,deleted_at,NULL'
+        // ]);
+        // if(!$validator->passes()){
+        //     return response()->json(['success' => -1]);
+        // }
+
+        // $validator = Validator::make($request->only('o_price', 's_price'), [
+        //     'o_price' => 'required|integer',
+        //     's_price' => 'required|integer'
+        // ]);
+        // if(!$validator->passes()){
+        //     return response()->json(['success' => 0]);
+        // }
+
         return response()->json(['success' => 1]);
     }
 

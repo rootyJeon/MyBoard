@@ -23,6 +23,7 @@
         "sass-loader": "^11.0.1"
     },
     "dependencies": {
+        "@owneul/kalidator": "^2.0.16",
         "tailwindcss": "^2.2.4"
     }
 }
