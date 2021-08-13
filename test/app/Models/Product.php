@@ -19,4 +19,6 @@ class Product extends Model
     public function brand(){
         return $this->belongsTo('App\Models\Brand');
     }
+    
+    // join query 작성
 }

@@ -22,12 +22,12 @@
             </p><br>
 
             <p>
-                <label for="status" class="inline-block text-right mr-16">상태</label>
-                <input type="checkbox" name="status" value="1">&nbsp판매중</input>
-                <input type="checkbox" name="status" value="2">&nbsp일시품절</input>
-                <input type="checkbox" name="status" value="3">&nbsp품절</input>
-                <input type="checkbox" name="status" value="4">&nbsp판매중지</input>
-                <input type="checkbox" name="status" value="4">&nbsp삭제</input>
+                <label for="status[]" class="inline-block text-right mr-16">상태</label>
+                <input type="checkbox" name="status[]" value="1">&nbsp판매중</input>
+                <input type="checkbox" name="status[]" value="2">&nbsp일시품절</input>
+                <input type="checkbox" name="status[]" value="3">&nbsp품절</input>
+                <input type="checkbox" name="status[]" value="4">&nbsp판매중지</input>
+                <input type="checkbox" name="trashed" value="1">&nbsp삭제</input>
             </p><br>
 
             <p>

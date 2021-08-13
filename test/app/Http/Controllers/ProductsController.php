@@ -29,18 +29,22 @@ class ProductsController extends Controller
         $min_date = $request->min_date;
         $max_date = $request->max_date;
 
-        
         $query = Product::query();
 
         foreach($names as $name){
             $query = $query->orWhere($keyword, 'LIKE', "%{$name}%");
         }
-        if($status != null) $query = $query->where('status', '=', $status);
+        if($status != null) $query = $query->whereIn('status', $status); // 하아...씨.. 왜 또 쿼리가 다른건데?!
         if($min_price != null) $query = $query->where($price, '>=', $min_price);
         if($max_price != null) $query = $query->where($price, '<=', $max_price);
         if($min_date != null) $query = $query->where($date, '>=', $min_date);
         if($max_date != null) $query = $query->where($date, '<=', $max_date);
-
+        if($request->trashed){
+            $deleted = Product::onlyTrashed();
+            if($status != null) $query = $query->union($deleted);
+            else $query = $query = $deleted;
+        }
+        
         $products = $query->orderByDesc('id')->paginate(8);
         // $products = Product::query()->where('name', 'LIKE', "%{$request->word}%")->orderByDesc('id')->paginate(8);
         return view('products.index', compact('products'));
