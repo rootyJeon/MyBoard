@@ -5,7 +5,7 @@
 
         <p class="border-b border-gray-400 text-left mb-8 pb-1 text-2xl">&nbsp 상 품 &nbsp 등 록</p>
 
-        <form action="/products" method="post" class="mt-8 w-full" id="frm">
+        <form action="/products" method="post" enctype="multipart/form-data" class="mt-8 w-full" id="frm">
             @csrf
             <p>
                 <label for="name" class="inline-block w-2/5 text-right mr-4">상품명</label>
@@ -124,21 +124,31 @@
 
         $("#reg").click(function(){
             var kalidator = new Kalidator(document.getElementById('frm'));
+            var o_price = 0;
+            if($("#o_price").val()) o_price = $("#o_price").val();
+            console.log(o_price);
             
             var rules = {
                 'name' : ['required'],
+                'category' : ['required'],
+                'brand' : ['required'],
                 'o_price' : ['required', 'number', 'minValue:0'],
-                's_price' : ['required', 'number', 'minValue:0'],
+                's_price' : ['required', 'number', 'minValue:0', 'maxValue:' + o_price],
+                'ex_file' : ['required'],
             };
 
             var messages = {
-                'name.required': '상품명을 입력하세요',
+                'name.required' : '상품명을 입력하세요',
+                'category.required' : '카테고리를 선택하세요',
+                'brand.required' : '브랜드를 선택하세요',
                 'o_price.required' : '정가를 입력하세요',
                 'o_price.number' : '정가는 0 이상의 정수만 가능합니다',
                 'o_price.minValue' : '정가는 0 이상의 정수만 가능합니다',
                 's_price.required' : '판매가를 입력하세요',
                 's_price.number' : '판매가는 0 이상의 정수만 가능합니다',
                 's_price.minValue' : '판매가는 0 이상의 정수만 가능합니다',
+                's_price.maxValue' : '판매가는 정가 이하여야합니다',
+                'ex_file.required' : '상품 사진을 입력해주세요',
             };
 
             kalidator
@@ -146,20 +156,36 @@
             .setMessages(messages)
             .run({
                 pass: function(){
-                    var formData = $("#frm").serialize();
-                    console.log(formData);
+                    var form = $("#frm")[0];
+                    var formData = new FormData(form);
+                    for(var i=0; i<arr.length; ++i){
+                        formData.append('arr[]', arr[i]);
+                    }
+                    // console.log(formData);
 
                     $.ajax({
+                        headers: {'X-CSRF_TOKEN':$('meta[name="csrf-token"]').attr('content')},
                         type: "POST",
                         url: "/products/store",
+                        cache: false,
+                        enctype: "multipart/form-data",
+                        dataType: "json",
                         data: formData,
+                        processData: false,
+                        contentType: false,
                         success: function(res){
-                            alert(res.isSuccess);
+                            // alert(res.isSuccess);
                             console.log(res);
+                            alert($("#name").val() + "이(가) 정상 등록되었습니다.");
+                            window.location.href="{{route('products.index')}}";
                         },
                         error: function(XMLHttpRequest, textStatus, errorThrown){
-                            alert('통신 실패.');
-                            console.log(XMLHttpRequest.responseText);
+                            console.log("실패!");
+                            var result = JSON.parse(XMLHttpRequest.responseText);
+                            var errors = result.errors;
+                            for(prop in errors){
+                                alert(errors[prop]);
+                            }
                         }
                     });
                 },
@@ -169,40 +195,6 @@
                 },
             });
             return;
-
-
-            // var form = $("#frm")[0];
-            // var formData = new FormData(form);
-            // for(var i=0; i<arr.length; ++i){
-            //     formData.append('arr[]', arr[i]);
-            // }
-
-            // $.ajax({
-            //     headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-            //     url: "/products/store",
-            //     type: "post",
-            //     cache: false,
-            //     data: formData,
-            //     processData: false,
-            //     contentType: false,
-            //     success: function(data){
-            //         console.log(data['message']);
-            //         // window.location.href="{{route('products.index')}}";
-            //     },
-            //     error: function(data){ // responseJson 이니까 방식이 다르지!
-            //         console.log(data[0]);
-            //     }
-            // });
-
-            // // $.ajax({
-            // //     headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-            // //     url: "/products/cat",
-            // //     type: "post",
-            // //     data: {arr:arr},
-            // //     success: function(data){
-            // //         console.log(data);
-            // //     }
-            // // });
         })
 
         $('#ex_file').change(function(){

@@ -93,25 +93,7 @@
         var form = $("#frm")[0];
         var formData = new FormData(form);
 
-        // $.ajax({
-        //     headers: {'X-CSRF_TOKEN':$('meta[name="csrf-token"]').attr('content')},
-        //     url: '/products/{{$products->id}}/status',
-        //     type: 'get',
-        //     enctype: false,
-        //     cache: false,
-        //     dataType: "json",
-        //     data: formData,
-        //     processData: false,
-        //     contentType: false,
-        //     success:function(data){
-
-        //     },
-        //     error:function(data){
-        //         console.log('오류!');
-        //     }
-        // })
-
-        $.ajax({ // db에 저장된 상태에 따라 라디오 박스를 체크해주는 ajax code 
+        $.ajax({ // db에 저장된 상태에 따라 카테고리를 추가하고 라디오 박스를 체크해주는 ajax code 
                 headers: {'X-CSRF_TOKEN':$('meta[name="csrf-token"]').attr('content')},
                 url: '/products/{{$products->id}}/status',
                 type: 'get',
@@ -146,13 +128,14 @@
                     }else{
                         $("#stop").prop("checked", true); 
                     }
+
                 },
                 error:function(data){
                     console.log("오류!");
                 }
         });
         
-        $("#add").click(function(){
+        $("#add").click(function(){ // 카테고리를 더해주는 함수
             var form = $("#frm")[0];
             var formData = new FormData(form);
 
@@ -211,31 +194,75 @@
             }
         }
 
-        $("#update_btn").click(function(){ // 브랜드 수정 버튼 클릭 시
-                var form = $("#frm")[0];
-                var formData = new FormData(form);
-                for(var i=0; i<arr.length; ++i){
-                    formData.append('arr[]', arr[i]);
-                }
+        $("#update_btn").click(function(){ // 상품 수정 버튼 클릭 시
 
-                $.ajax({ // 브랜드 수정하는 ajax
-                    headers: {'X-CSRF-TOKEN':$('meta[name="csrf-token"]').attr('content')},
-                    url: '/products/{{$products->id}}/update',
-                    type: "post",
-                    cache: false,
-                    enctype: "multipart/form-data",
-                    data: formData,
-                    dataType: "json",
-                    processData: false,
-                    contentType: false,
-                    success: function(data){
-                        console.log(data);
-                        window.location.href="{{route('products.index')}}";
-                    },
-                    error: function(data){
-                        console.log("오류!");
+            var kalidator = new Kalidator(document.getElementById('frm'));
+            var o_price = 0;
+            if($("#o_price").val()) o_price = $("#o_price").val();
+            console.log(o_price);
+            
+            var rules = {
+                'name' : ['required'],
+                'brand' : ['required'],
+                'o_price' : ['required', 'number', 'minValue:0'],
+                's_price' : ['required', 'number', 'minValue:0', 'maxValue:' + o_price],
+            };
+
+            var messages = {
+                'name.required' : '상품명을 입력하세요',
+                'brand.required' : '브랜드를 선택하세요',
+                'o_price.required' : '정가를 입력하세요',
+                'o_price.number' : '정가는 0 이상의 정수만 가능합니다',
+                'o_price.minValue' : '정가는 0 이상의 정수만 가능합니다',
+                's_price.required' : '판매가를 입력하세요',
+                's_price.number' : '판매가는 0 이상의 정수만 가능합니다',
+                's_price.minValue' : '판매가는 0 이상의 정수만 가능합니다',
+                's_price.maxValue' : '판매가는 정가 이하여야합니다',
+            };
+
+            kalidator
+            .setRules(rules)
+            .setMessages(messages)
+            .run({
+                pass: function(){
+                    var form = $("#frm")[0];
+                    var formData = new FormData(form);
+                    for(var i=0; i<arr.length; ++i){
+                        formData.append('arr[]', arr[i]);
                     }
-                });
-            })
+                    // console.log(formData);
+
+                    $.ajax({
+                        headers: {'X-CSRF_TOKEN':$('meta[name="csrf-token"]').attr('content')},
+                        type: "POST",
+                        url: "/products/{{$products->id}}/update",
+                        cache: false,
+                        enctype: "multipart/form-data",
+                        dataType: "json",
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                        success: function(res){
+                            // alert(res.isSuccess);
+                            console.log(res);
+                            window.location.href="{{route('products.index')}}";
+                        },
+                        error: function(XMLHttpRequest, textStatus, errorThrown){
+                            console.log("실패!");
+                            var result = JSON.parse(XMLHttpRequest.responseText);
+                            var errors = result.errors;
+                            for(prop in errors){
+                                alert(errors[prop]);
+                            }
+                        }
+                    });
+                },
+                fail: function(__errors){
+                    alert(kalidator.firstErrorMessage);
+                    return false;
+                },
+            });
+            return;
+        })
     </script>
 @stop
