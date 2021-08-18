@@ -80,7 +80,15 @@
     <script>
         var arr = new Array();
         
-        $("#add").click(function(){
+        $("#add").click(function(){ // id명 변경
+            // var select = $("#category").val();
+
+            // arr.push(select);
+
+            // console.log(arr);
+
+            // return false;
+
             var form = $("#frm")[0];
             var formData = new FormData(form);
 
@@ -158,9 +166,11 @@
                 pass: function(){
                     var form = $("#frm")[0];
                     var formData = new FormData(form);
-                    for(var i=0; i<arr.length; ++i){
-                        formData.append('arr[]', arr[i]);
-                    }
+                    formData.append('arr', arr);
+                    // for문 말고 배열을 만드는 함수 사용
+                    // for(var i=0; i<arr.length; ++i){
+                    //     formData.append('arr[]', arr[i]);
+                    // }
                     // console.log(formData);
 
                     $.ajax({

@@ -62,7 +62,7 @@ class ProductsController extends Controller
         return view('products.create', compact('brands', 'categories'));
     }
 
-    public function add(Request $request){
+    public function add(Request $request){ // 함수명 변경
         $category = $request->only('category');
         return response()->json([$category]);
     }
@@ -76,7 +76,7 @@ class ProductsController extends Controller
     }
 
     public function store(Request $request){
-
+        dd($request->all());
         try{
             //data 확인
             $data = $request->toArray();
